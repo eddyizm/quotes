@@ -1,0 +1,2 @@
+# quotes
+FastAPI quote app
