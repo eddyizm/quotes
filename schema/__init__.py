@@ -1,2 +1,1 @@
-from .dal import users
-from .models import User
+from .dal import users, quotes, database
