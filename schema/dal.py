@@ -1,7 +1,7 @@
 import sqlalchemy
 from databases import Database
 from sqlalchemy.sql.sqltypes import Boolean
-DATABASE_URL = "sqlite:///./quotes_app.sqlite3"
+DATABASE_URL = "sqlite:///./schema/quotes_app.sqlite3"
 
 database = Database(DATABASE_URL)
 metadata = sqlalchemy.MetaData()
