@@ -12,5 +12,5 @@ async def root():
 
 @app.get('/random/', response_model=Quote)
 async def get_random_quote():
-    query = 'select quote, id from randomQview;'
+    query = 'select quote, author, id from randomQview;'
     return await database.fetch_one(query)
