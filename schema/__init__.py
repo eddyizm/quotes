@@ -1,1 +1,1 @@
-from .dal import users, quotes, database
+from .dal import users, quotes, quote_history, database

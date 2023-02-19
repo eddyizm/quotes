@@ -32,4 +32,11 @@ quotes = sqlalchemy.Table(
     server_default=sqlalchemy.sql.expression.false(), nullable=False)
     )
 
+quote_history = sqlalchemy.Table(
+    'quote_history',
+    metadata,
+    sqlalchemy.Column('date_sent', sqlalchemy.DATE(), primary_key=True, nullable=False),
+    sqlalchemy.Column('quote_id_fk', sqlalchemy.Integer, nullable=False),
+    ) 
+
 metadata.create_all(engine)
