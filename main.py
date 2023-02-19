@@ -1,21 +1,27 @@
 from fastapi import FastAPI
 
 from models.quote_models import Quote
-from schema import users, quotes, quote_history, database
+from schema import quotes, quote_history, database
+from schema import RANDOM_QUOTE
 from sqlalchemy import select, func
 
 app = FastAPI()
 
+
 @app.get("/")
 async def root():
-    return {"message": "Hello World!"}
+    return {"message": "Bringing quote app to parity."}
+
+
+async def get_random_quote():
+    return await database.fetch_one(RANDOM_QUOTE)
 
 
 @app.get('/random/', response_model=Quote)
 async def random_quote():
     ''' Get random quote '''
-    query = 'select quote, author, id from randomQview;'
-    return await database.fetch_one(query)
+    return await get_random_quote()    
+
 
 @app.get('/daily/', response_model=Quote)
 async def daily_quote():
