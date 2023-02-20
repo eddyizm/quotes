@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
-from models.quote_models import Quote
-from schema import quotes, quote_history, database
-from schema import RANDOM_QUOTE
+from core.models.quote_models import Quote 
+from core.schema.dal import quotes, quote_history, database
+from core.schema.sql_views import RANDOM_QUOTE
 from sqlalchemy import select, func
 
 app = FastAPI()
