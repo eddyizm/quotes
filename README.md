@@ -1,6 +1,29 @@
 # quotes
 FastAPI quote app
 
+## local set up without docker
+
+create virtual env
+```  
+python -m venv env
+``` 
+activate virtual env (linux)
+
+```  
+source env/bin/activate
+``` 
+activate virtual env (windows)
+```
+source env/Scripts/activate
+```
+install requirements
+```
+pip install -r requirements.txt
+```
+Launch server  
+```  
+uvicorn main:app --reload  
+```
 
 ## Docker build and run
 `docker build -t quote_api .`  
