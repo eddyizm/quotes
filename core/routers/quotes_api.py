@@ -1,8 +1,8 @@
 from fastapi import APIRouter
-
-from core.models.quote_models import Quote 
+from core.models.quote_models import Quote, Category 
 from core.schema.dal import quotes, quote_history, database
 from core.schema.sql_views import RANDOM_QUOTE
+from typing import List
 from sqlalchemy import select
 
 router = APIRouter(
@@ -25,3 +25,10 @@ async def daily_quote():
         quote_history, quotes.c.id == quote_history.c.quote_id_fk
         ).order_by(quote_history.c.date_sent.desc())
     return await database.fetch_one(query)
+
+
+@router.post('/categories/', response_model=List[Category])
+async def categories():
+    ''' return list of categories '''
+    query = select([quotes.c.category]).distinct().order_by(quotes.c.category)
+    return await database.fetch_all(query)
