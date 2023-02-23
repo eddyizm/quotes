@@ -1,0 +1,12 @@
+# html gets
+GET http://127.0.0.1:8000/
+
+
+### api requests
+POST http://127.0.0.1:8000/api/v1/random/
+
+###
+POST http://127.0.0.1:8000/api/v1/daily/
+
+###
+POST http://127.0.0.1:8000/api/v1/categories/
