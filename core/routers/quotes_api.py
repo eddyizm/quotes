@@ -36,6 +36,6 @@ async def categories():
 
 @router.post('/authors/', response_model=List[Author])
 async def authors():
-    ''' return list of categories '''
+    ''' return list of authors '''
     query = select([quotes.c.author]).distinct().order_by(quotes.c.author)
     return await database.fetch_all(query)
