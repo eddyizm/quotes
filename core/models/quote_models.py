@@ -9,3 +9,7 @@ class Quote(BaseModel):
 
 class Category(BaseModel):
     category: str
+
+
+class Author(BaseModel):
+    author: str

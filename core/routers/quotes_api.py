@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from core.models.quote_models import Quote, Category 
+from core.models.quote_models import Author, Category, Quote 
 from core.schema.dal import quotes, quote_history, database
 from core.schema.sql_views import RANDOM_QUOTE
 from typing import List
@@ -31,4 +31,11 @@ async def daily_quote():
 async def categories():
     ''' return list of categories '''
     query = select([quotes.c.category]).distinct().order_by(quotes.c.category)
+    return await database.fetch_all(query)
+
+
+@router.post('/authors/', response_model=List[Author])
+async def authors():
+    ''' return list of categories '''
+    query = select([quotes.c.author]).distinct().order_by(quotes.c.author)
     return await database.fetch_all(query)
