@@ -4,7 +4,7 @@ from databases import Database
 from sqlalchemy.sql.sqltypes import Boolean
 from sqlalchemy.sql import func, expression
 
-DATABASE_URL = 'sqlite:///./core/schema/quotes_app.sqlite3'
+DATABASE_URL = 'sqlite:///./core/schema/    quotes_app.sqlite3'
 
 database = Database(DATABASE_URL)
 metadata = sqlalchemy.MetaData()
@@ -35,7 +35,7 @@ quotes = sqlalchemy.Table(
     )
 
 quotes_staging = sqlalchemy.Table(
-    'quotes_staging',
+    'quotes_staging', # TODO add unique constraint for quote/author
     metadata,
     sqlalchemy.Column('id', sqlalchemy.Integer, primary_key=True,
     autoincrement=True),

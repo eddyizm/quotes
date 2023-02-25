@@ -57,7 +57,7 @@ async def authors():
 async def new_quote(new_quote: Quote_Staging):
     ''' new quote submission '''    
     try:
+        # TODO make this a form submission endpoint.
         return await submit_new_quote(new_quote)
     except HTTPException:
         raise HTTPException
-    
