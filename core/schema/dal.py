@@ -32,6 +32,20 @@ quotes = sqlalchemy.Table(
     server_default=sqlalchemy.sql.expression.false(), nullable=False)
     )
 
+quotes_staging = sqlalchemy.Table(
+    'quotes_staging',
+    metadata,
+    sqlalchemy.Column('id', sqlalchemy.Integer, primary_key=True,
+    autoincrement=True),
+    sqlalchemy.Column('category', sqlalchemy.String(25)),
+    sqlalchemy.Column('quote', sqlalchemy.String(2000)),
+    sqlalchemy.Column('author', sqlalchemy.String(50)),
+    sqlalchemy.Column('added_to_quotes', sqlalchemy.BOOLEAN),
+    sqlalchemy.Column('added_by', sqlalchemy.String(50)),
+    sqlalchemy.Column('date_created', sqlalchemy.DATE(),
+   server_default=sqlalchemy.sql.expression.false(), nullable=False)
+    )
+
 quote_history = sqlalchemy.Table(
     'quote_history',
     metadata,
