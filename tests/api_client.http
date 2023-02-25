@@ -12,3 +12,15 @@ POST http://127.0.0.1:8000/api/v1/categories/
 
 ###
 POST http://127.0.0.1:8000/api/v1/authors/
+
+###
+POST http://127.0.0.1:8000/api/v1/quote/submit/
+content-type: application/json
+
+{
+  "quote": "testing the submission",
+  "author": "eddyizm",
+  "category": "testing",
+  "added_to_quotes": false,
+  "added_by": "testing"
+}
