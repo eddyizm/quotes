@@ -1,6 +1,6 @@
-from fastapi import APIRouter
-from core.models.quote_models import Author, Category, Quote 
-from core.schema.dal import quotes, quote_history, database
+from fastapi import APIRouter, HTTPException
+from core.models.quote_models import Author, Category, Quote, Quote_Staging
+from core.schema.dal import quotes, quote_history, quotes_staging, database
 from core.schema.sql_views import RANDOM_QUOTE
 from typing import List
 from sqlalchemy import select
@@ -9,9 +9,21 @@ router = APIRouter(
         prefix="/api/v1",
     )
 
+
 async def get_random_quote():
     return await database.fetch_one(RANDOM_QUOTE)
 
+
+async def submit_new_quote(new_quote: Quote_Staging):
+    query = quotes_staging.insert().values(
+            quote = new_quote.quote,
+            author = new_quote.author,
+            category = new_quote.category,
+            added_by = new_quote.added_by
+        )
+    return await database.execute(query)
+
+    
 @router.post('/random/', response_model=Quote)
 async def random_quote():
     ''' Get random quote '''
@@ -39,3 +51,13 @@ async def authors():
     ''' return list of authors '''
     query = select([quotes.c.author]).distinct().order_by(quotes.c.author)
     return await database.fetch_all(query)
+
+
+@router.post('/quote/submit/')
+async def new_quote(new_quote: Quote_Staging):
+    ''' new quote submission '''    
+    try:
+        return await submit_new_quote(new_quote)
+    except HTTPException:
+        raise HTTPException
+    
