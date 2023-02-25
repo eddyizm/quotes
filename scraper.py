@@ -1,6 +1,7 @@
 import feedparser
 from datetime import datetime
 from pprint import pprint
+from core.models.quote_models import Quote_Staging
 
 
 URLS = {'love': 'https://www.brainyquote.com/link/quotelo.rss',
@@ -9,18 +10,12 @@ URLS = {'love': 'https://www.brainyquote.com/link/quotelo.rss',
         'art': 'https://www.brainyquote.com/link/quotear.rss'}
 
 
-# feed = feedparser.parse(URLS['love'])
-# entries = feed.get('entries')
-# feed_info = feed.get('feed')
-
-
 def check_published_date(feed_info) -> bool:
     published = datetime.strptime(feed_info.published[0:16], '%a, %d %b %Y' )
     if datetime.now().date() == published.date():
         print('load records')
         return True
 
-# check_published_date(feed_info)
 
 def get_entries_and_feed_info(url):
     feed = feedparser.parse(url)
@@ -29,16 +24,24 @@ def get_entries_and_feed_info(url):
     return entries, feed_info
 
 
-def parse_entry(entries):
+def parse_entry(entries, category):
+    new_quotes = []
     for entry in entries:
+        new_quote = Quote_Staging()
         print(entry.summary)
         print(entry.title)
+        new_quote.quote = entry.summary
+        new_quote.author = entry.summary
+        new_quote.added_by = 'automated_py'
+        new_quote.category = category
+        new_quotes.append(new_quote)
+    return new_quotes
 
 
 def process_url(category, url):
     entries, feed_info = get_entries_and_feed_info(url)
     if check_published_date(feed_info):
-        parse_entry(entries)
+        new_quotes = parse_entry(entries, category)
 
 def read_feeds():
     for category, url in URLS.items():
