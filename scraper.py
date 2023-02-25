@@ -9,9 +9,9 @@ URLS = {'love': 'https://www.brainyquote.com/link/quotelo.rss',
         'art': 'https://www.brainyquote.com/link/quotear.rss'}
 
 
-feed = feedparser.parse(URLS['love'])
-entries = feed.get('entries')
-feed_info = feed.get('feed')
+# feed = feedparser.parse(URLS['love'])
+# entries = feed.get('entries')
+# feed_info = feed.get('feed')
 
 
 def check_published_date(feed_info) -> bool:
@@ -20,11 +20,25 @@ def check_published_date(feed_info) -> bool:
         print('load records')
         return True
 
-check_published_date(feed_info)
+# check_published_date(feed_info)
 
-# for entry in entries:
-#     print(entry.summary)
-#     print(entry.title)
+def get_entries_and_feed_info(url):
+    feed = feedparser.parse(url)
+    entries = feed.get('entries')
+    feed_info = feed.get('feed')
+    return entries, feed_info
+
+
+def parse_entry(entries):
+    for entry in entries:
+        print(entry.summary)
+        print(entry.title)
+
+
+def process_url(category, url):
+    entries, feed_info = get_entries_and_feed_info(url)
+    if check_published_date(feed_info):
+        parse_entry(entries)
 
 def read_feeds():
     for category, url in URLS.items():
