@@ -7,7 +7,7 @@ services:
     image: nginx:1.17.1-alpine
     container_name: reverse-proxy
     depends_on:
-        - quote_api
+        - quote-api
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
