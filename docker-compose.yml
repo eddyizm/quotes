@@ -15,8 +15,8 @@ services:
 
   # app
   quote-app:
-    image: quote_app
-    container_name: quote_app
+    image: quote-app
+    container_name: quote-app
     build:
       context: .
     ports:
