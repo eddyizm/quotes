@@ -20,7 +20,6 @@ services:
             - '443:443'
         container_name: 'nginx-proxy,nginx-letsencrypt'
         volumes:
-            - '$HOME/certs:/etc/nginx/certs:ro'
             - /etc/nginx/vhost.d
             - /usr/share/nginx/html
             - '/var/run/docker.sock:/tmp/docker.sock:ro'
