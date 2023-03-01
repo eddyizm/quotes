@@ -51,4 +51,4 @@ services:
           - LETSENCRYPT_HOST=quotes.eddyizm.com
           - LETSENCRYPT_EMAIL=eddyizm@gmail.com
         networks:
-          - reverse-proxy
+          - nginx-proxy
