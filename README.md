@@ -30,3 +30,6 @@ uvicorn main:app --reload
 
 `docker run -d -p 5432:8000 quote_api`  
 *using this port on my local dev machine to validate*  
+
+## Docker Compose  
+`docker compose up --build -d`
