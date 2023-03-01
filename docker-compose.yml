@@ -31,7 +31,7 @@ services:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: letsencrypt-nginx-proxy-companion
     volumes_from:
-      - nginx
+      - reverse-proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./volumes/proxy/certs:/etc/nginx/certs:rw
@@ -50,4 +50,4 @@ services:
       - VIRTUAL_NETWORK=nginx-proxy
       - VIRTUAL_PORT=8000
       - LETSENCRYPT_HOST=quotes.eddyizm.com
-      - LETSENCRYPT_EMAIL=email@example.com
+      - LETSENCRYPT_EMAIL=eddyizm@gmail.com
