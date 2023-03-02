@@ -10,9 +10,16 @@ services:
         - quote-app
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
     ports:
-      - 80:80
-
+      - '80:80'
+      - '443:443'
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot  
   # app
   quote-app:
     image: quote-app
