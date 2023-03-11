@@ -23,7 +23,12 @@ async def submit_new_quote(new_quote: Quote_Staging):
         )
     return await database.execute(query)
 
-    
+
+async def get_quote_submissions():
+    query = quotes_staging.select()
+    return await database.fetch_all(query)
+
+
 @router.post('/random/', response_model=Quote)
 async def random_quote():
     ''' Get random quote '''
@@ -59,5 +64,14 @@ async def new_quote(new_quote: Quote_Staging):
     try:
         # TODO make this a form submission endpoint.
         return await submit_new_quote(new_quote)
+    except HTTPException:
+        raise HTTPException
+
+
+@router.post('/quote/submissions/', response_model=List[Quote_Staging])
+async def submissions():
+    ''' Return list of unprocess quote submissions '''    
+    try:
+        return await get_quote_submissions()
     except HTTPException:
         raise HTTPException

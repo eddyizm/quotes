@@ -1,19 +1,21 @@
 # html gets
 GET http://127.0.0.1:8000/
 
-### api requests
+### api requests ###
+
+### get random quote
 POST http://127.0.0.1:8000/api/v1/random/
 
-###
+### get daily quote
 POST http://127.0.0.1:8000/api/v1/daily/
 
-###
+### get list of categories
 POST http://127.0.0.1:8000/api/v1/categories/
 
-###
+### get list of authors
 POST http://127.0.0.1:8000/api/v1/authors/
 
-###
+### submit new quote
 POST http://127.0.0.1:8000/api/v1/quote/submit/
 content-type: application/json
 
@@ -24,3 +26,6 @@ content-type: application/json
   "added_to_quotes": false,
   "added_by": "testing"
 }
+
+### get list of quote submissions
+POST http://127.0.0.1:8000/api/v1/quote/submissions/
