@@ -33,3 +33,9 @@ uvicorn main:app --reload
 
 ## Docker Compose  
 `docker compose up --build -d`
+
+## running jobs 
+
+call scraper via docker. Use this in the crontab job. 
+
+`docker exec -it <CONTAINER ID> python -m scraper`
