@@ -12,16 +12,29 @@
 </head>
 
 <body>
-    <div class="paper container">
-        <h1>{{ site_title }}</h1>
-        <div class="col-6 col">
-            <p> Under construction for now but you can still check out</p>
-            <a href="/docs">
-                <button class="btn-block">The OpenAPI Docs</button>
-            </a>
+    <!-- navigation > -->
+    <nav class="border fixed split-nav">
+        <div class="nav-brand">
+          <h4><a href="#">{{ site_title }}</a></h4>
         </div>
-    </div>
-
+        <div class="collapsible">
+          <input id="collapsible2" type="checkbox" name="collapsible2">
+          <label for="collapsible2">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+          </label>
+          <div class="collapsible-body">
+            <ul class="inline">
+              <li><a href="#">Documentation</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Github</a></li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <!-- < navigation  -->
+    <main>{% block content %} {% endblock %}</main>
 
 </body>
 
