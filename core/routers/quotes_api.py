@@ -1,9 +1,11 @@
 from fastapi import APIRouter, HTTPException
 from core.models.quote_models import Author, Category, Quote, Quote_Staging
+from core.routers.quote import daily_quote
 from core.schema.dal import quotes, quote_history, quotes_staging, database
 from core.schema.sql_views import RANDOM_QUOTE
 from typing import List
 from sqlalchemy import select
+
 
 router = APIRouter(
         prefix="/api/v1",
@@ -36,12 +38,9 @@ async def random_quote():
 
 
 @router.post('/daily/', response_model=Quote)
-async def daily_quote():
+async def get_daily_quote():
     ''' Get daily quote '''
-    query = select(quotes, quote_history.c.date_sent).join(
-        quote_history, quotes.c.id == quote_history.c.quote_id_fk
-        ).order_by(quote_history.c.date_sent.desc())
-    return await database.fetch_one(query)
+    return await daily_quote()
 
 
 @router.post('/categories/', response_model=List[Category])
