@@ -27,14 +27,18 @@
           <div class="collapsible-body">
             <ul class="inline">
               <li><a href="#">Documentation</a></li>
-              <li><a href="#">About</a></li>
+              <li><a href="/about">About</a></li>
               <li><a href="/random">Random</a></li>
             </ul>
           </div>
         </div>
     </nav>
     <!-- < navigation  -->
-    <main>{% block content %} {% endblock %}</main>
+    <main class="paper">
+      <div class="section">
+        {% block content %} {% endblock %}
+      </div>
+    </main>
 
 </body>
 
