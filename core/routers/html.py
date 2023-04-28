@@ -35,3 +35,12 @@ async def random(response: Response, request:Request):
                                            'page_title': 'Random Quote!',
                                             "daily_quote": quote })
     return response
+
+
+@router.get("/about" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
+async def about(response: Response, request:Request):
+    response = templates.TemplateResponse("about.html", 
+                                          {"request": request,
+                                           'site_title': settings.SITE_TITLE
+                                           })
+    return response
