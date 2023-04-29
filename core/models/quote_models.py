@@ -6,6 +6,7 @@ class Quote(BaseModel):
     id: int
     quote: str
     author: str
+    category: str
 
 
 class Category(BaseModel):
