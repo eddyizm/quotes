@@ -2,7 +2,7 @@
 from sqlalchemy import select
 from core.models.quote_models import Quote
 from core.schema.sql_views import RANDOM_QUOTE
-from core.schema.dal import quotes, quote_history, database
+from core.schema.dal import quotes, quote_history, quotes_staging, database
 
 
 async def daily_quote() -> Quote:
@@ -15,3 +15,8 @@ async def daily_quote() -> Quote:
 
 async def get_random_quote():
     return await database.fetch_one(RANDOM_QUOTE)
+
+
+async def get_quote_submissions():
+    query = quotes_staging.select()
+    return await database.fetch_all(query)
