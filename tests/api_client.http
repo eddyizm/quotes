@@ -1,5 +1,19 @@
-# html gets
+### html gets ###
 GET http://127.0.0.1:8000/
+
+
+### home
+GET http://127.0.0.1:8000/home
+
+### random
+GET http://127.0.0.1:8000/random
+
+### about 
+GET http://127.0.0.1:8000/about
+
+### submissions 
+GET http://127.0.0.1:8000/submissions
+
 
 ### api requests ###
 
