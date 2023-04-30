@@ -1,0 +1,26 @@
+{% extends "base.html" %}  {% block content %}
+<div class="paper container">
+    <table class="table-hover">
+        <thead>
+            <tr>
+                <th>Quote</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Submitted By</th>
+                <th>Approve</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in submissions %}
+            <tr>
+                <td>{{ s.quote }}</td>
+                <td>{{ s.author }}</td>
+                <td>{{ s.category }}</td>
+                <td>{{ s.added_by }}</td>
+                <td><button class="btn-success btn-small">Approve</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
