@@ -3,6 +3,7 @@ import feedparser
 from datetime import datetime
 from core.models.quote_models import Quote_Staging
 from core.routers.quotes_api import submit_new_quote
+from core.schema.jobs import insert_daily_quote
 
 
 URLS = {'love': 'https://www.brainyquote.com/link/quotelo.rss',
@@ -54,8 +55,10 @@ async def process_url(category, url):
 
 
 async def read_feeds():
-    for category, url in URLS.items():
-        await process_url(category, url)
+    print('inserting daily quote')
+    await insert_daily_quote()
+    # for category, url in URLS.items():
+    #     await process_url(category, url)
 
 if __name__ == '__main__':
     asyncio.run(read_feeds())
