@@ -24,6 +24,7 @@ pycparser==2.21
 pydantic==1.10.5
 python-dotenv==0.21.1
 python-jose==3.3.0
+python-multipart==0.0.6
 rsa==4.9
 sgmllib3k==1.0.0
 six==1.16.0
