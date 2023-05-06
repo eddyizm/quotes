@@ -46,6 +46,15 @@ async def about(response: Response, request:Request):
     return response
 
 
+@router.get("/documentation" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
+async def about(response: Response, request:Request):
+    response = templates.TemplateResponse("documentation.html", 
+                                          {"request": request,
+                                           'site_title': settings.SITE_TITLE
+                                           })
+    return response
+
+
 @router.get("/submissions" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
 async def new_submissions(response: Response, request:Request):
     submissions = await get_quote_submissions()

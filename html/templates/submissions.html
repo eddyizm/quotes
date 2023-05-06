@@ -7,7 +7,7 @@
                 <th>Author</th>
                 <th>Category</th>
                 <th>Submitted By</th>
-                <th>Approve</th>
+                <th>Process</th>
             </tr>
         </thead>
         <tbody>
@@ -17,7 +17,11 @@
                 <td>{{ s.author }}</td>
                 <td>{{ s.category }}</td>
                 <td>{{ s.added_by }}</td>
-                <td><button class="btn-success btn-small">Approve</button></td>
+                <td>
+                    <span>
+                        <button class="btn-secondary-outline btn-small">Add</button> <button class="paper-btn btn-small btn-danger-outline">Reject</button>
+                    </span>
+            </td>
             </tr>
             {% endfor %}
         </tbody>
