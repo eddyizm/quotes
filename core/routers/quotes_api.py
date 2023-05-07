@@ -1,15 +1,17 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from sqlalchemy import select
 
 from core.models.quote_models import Author, Category, Quote, Quote_Staging
 from core.routers.quote import daily_quote, get_random_quote, get_quote_submissions
+from core.security import AuthHandler
 from core.schema.dal import quotes, quotes_staging, database
 
 
 router = APIRouter(
         prefix="/api/v1",
     )
+auth_handler = AuthHandler()
 
 
 async def submit_new_quote(new_quote: Quote_Staging):
@@ -42,7 +44,7 @@ async def categories():
 
 
 @router.post('/authors/', response_model=List[Author])
-async def authors():
+async def authors(email=Depends(auth_handler.auth_wrapper)):
     ''' return list of authors '''
     query = select([quotes.c.author]).distinct().order_by(quotes.c.author)
     return await database.fetch_all(query)
