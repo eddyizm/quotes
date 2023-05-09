@@ -1,6 +1,6 @@
 '''Shared code'''
 from sqlalchemy import select
-from core.models.quote_models import Quote
+from core.models.quote_models import Quote, Quote_Staging
 from core.schema.sql_views import RANDOM_QUOTE
 from core.schema.dal import quotes, quote_history, quotes_staging, database
 
@@ -20,3 +20,13 @@ async def get_random_quote():
 async def get_quote_submissions():
     query = quotes_staging.select()
     return await database.fetch_all(query)
+
+
+async def submit_new_quote(new_quote: Quote_Staging):
+    query = quotes_staging.insert().values(
+            quote = new_quote.quote,
+            author = new_quote.author,
+            category = new_quote.category,
+            added_by = new_quote.added_by
+        )
+    return await database.execute(query)

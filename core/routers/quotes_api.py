@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy import select
 
 from core.models.quote_models import Author, Category, Quote, Quote_Staging
-from core.routers.quote import daily_quote, get_random_quote, get_quote_submissions
+from core.routers.quote import daily_quote, get_random_quote, get_quote_submissions, submit_new_quote
 from core.security import AuthHandler
 from core.schema.dal import quotes, quotes_staging, database
 
@@ -12,16 +12,6 @@ router = APIRouter(
         prefix="/api/v1",
     )
 auth_handler = AuthHandler()
-
-
-async def submit_new_quote(new_quote: Quote_Staging):
-    query = quotes_staging.insert().values(
-            quote = new_quote.quote,
-            author = new_quote.author,
-            category = new_quote.category,
-            added_by = new_quote.added_by
-        )
-    return await database.execute(query)
 
 
 @router.post('/random/', response_model=Quote)
@@ -37,7 +27,7 @@ async def get_daily_quote():
 
 
 @router.post('/categories/', response_model=List[Category])
-async def categories():
+async def categories(email=Depends(auth_handler.auth_wrapper)):
     ''' return list of categories '''
     query = select([quotes.c.category]).distinct().order_by(quotes.c.category)
     return await database.fetch_all(query)
@@ -51,7 +41,7 @@ async def authors(email=Depends(auth_handler.auth_wrapper)):
 
 
 @router.post('/quote/submit/')
-async def new_quote(new_quote: Quote_Staging):
+async def new_quote(new_quote: Quote_Staging, email=Depends(auth_handler.auth_wrapper)):
     ''' new quote submission '''    
     try:
         # TODO make this a form submission endpoint.
@@ -61,8 +51,9 @@ async def new_quote(new_quote: Quote_Staging):
 
 
 @router.post('/quote/submissions/', response_model=List[Quote_Staging])
-async def submissions():
-    ''' Return list of unprocess quote submissions '''    
+async def submissions(email=Depends(auth_handler.auth_wrapper)):
+    ''' Return list of unprocess quote submissions '''
+    # TODO this will be an elevated permission
     try:
         return await get_quote_submissions()
     except HTTPException:
