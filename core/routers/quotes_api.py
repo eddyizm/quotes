@@ -5,7 +5,7 @@ from sqlalchemy import select
 from core.models.quote_models import Author, Category, Quote, Quote_Staging
 from core.routers.quote import daily_quote, get_random_quote, get_quote_submissions, submit_new_quote
 from core.security import AuthHandler
-from core.schema.dal import quotes, quotes_staging, database
+from core.schema.dal import quotes, database
 
 
 router = APIRouter(
