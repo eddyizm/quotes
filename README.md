@@ -24,6 +24,20 @@ Launch server
 ```  
 uvicorn main:app --reload  
 ```
+## db migrations with Alembic  
+Set this up after starting project. After installing, set up locally  
+
+`alembic init alembic`  
+
+Show current
+
+`alembic current`  
+and then history  
+`alembeic hsitory`  
+Now upgrade to the latest, similar to a `git pull`  
+`alembic upgrade head`  
+
+This command is setup to run in the docker container for any migrations made outside.
 
 ## Docker build and run
 `docker build -t quote_api .`  
