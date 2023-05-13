@@ -24,6 +24,7 @@ async def nav(response: Response, request:Request):
                                           {"request": request, 
                                            "site_title": settings.SITE_TITLE,
                                            "year": settings.YEAR,
+                                           "version": settings.VERSION,
                                            'page_title': 'Daily Quote!',
                                             "daily_quote": quote })
     return response
@@ -35,6 +36,8 @@ async def random(response: Response, request:Request):
     response = templates.TemplateResponse("home.html", 
                                           {"request": request, 
                                            "site_title": settings.SITE_TITLE,
+                                           "year": settings.YEAR,
+                                           "version": settings.VERSION,
                                            'page_title': 'Random Quote!',
                                             "daily_quote": quote })
     return response
@@ -44,6 +47,8 @@ async def random(response: Response, request:Request):
 async def about(response: Response, request:Request):
     response = templates.TemplateResponse("about.html", 
                                           {"request": request,
+                                           "year": settings.YEAR,
+                                           "version": settings.VERSION,
                                            'site_title': settings.SITE_TITLE
                                            })
     return response
@@ -53,6 +58,8 @@ async def about(response: Response, request:Request):
 async def about(response: Response, request:Request):
     response = templates.TemplateResponse("documentation.html", 
                                           {"request": request,
+                                           "year": settings.YEAR,
+                                           "version": settings.VERSION,
                                            'site_title': settings.SITE_TITLE
                                            })
     return response
