@@ -23,6 +23,7 @@ async def nav(response: Response, request:Request):
     response = templates.TemplateResponse("home.html", 
                                           {"request": request, 
                                            "site_title": settings.SITE_TITLE,
+                                           "year": settings.YEAR,
                                            'page_title': 'Daily Quote!',
                                             "daily_quote": quote })
     return response
