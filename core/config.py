@@ -14,5 +14,20 @@ class Settings:
     ACCESS_TOKEN_EXPIRE_MINUTES=60
     YEAR=year
 
+    def quote_response(self, request, quote) -> dict:
+        return {"request": request, 
+        "site_title": settings.SITE_TITLE,
+        "year": settings.YEAR,
+        "version": settings.VERSION,
+        'page_title': 'Daily Quote!',
+        "daily_quote": quote }
+
+    def non_quote_response(self, request) -> dict:
+        return {"request": request, 
+            "site_title": settings.SITE_TITLE,
+            "year": settings.YEAR,
+            "version": settings.VERSION
+            }
+
 
 settings = Settings()

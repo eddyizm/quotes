@@ -20,48 +20,35 @@ async def home(response: Response, request:Request):
 @router.get("/home" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
 async def nav(response: Response, request:Request):
     quote = await daily_quote()
+    quote_response = settings.quote_response(request, quote)
     response = templates.TemplateResponse("home.html", 
-                                          {"request": request, 
-                                           "site_title": settings.SITE_TITLE,
-                                           "year": settings.YEAR,
-                                           "version": settings.VERSION,
-                                           'page_title': 'Daily Quote!',
-                                            "daily_quote": quote })
+                                          quote_response)
     return response
 
 
 @router.get("/random" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
 async def random(response: Response, request:Request):
     quote = await get_random_quote()
+    quote_response = settings.quote_response(request, quote)
+    quote_response['page_title'] = 'Random Quote!'
     response = templates.TemplateResponse("home.html", 
-                                          {"request": request, 
-                                           "site_title": settings.SITE_TITLE,
-                                           "year": settings.YEAR,
-                                           "version": settings.VERSION,
-                                           'page_title': 'Random Quote!',
-                                            "daily_quote": quote })
+                                          quote_response)
     return response
 
 
 @router.get("/about" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
 async def about(response: Response, request:Request):
+    non_quote_response = settings.non_quote_response(request)
     response = templates.TemplateResponse("about.html", 
-                                          {"request": request,
-                                           "year": settings.YEAR,
-                                           "version": settings.VERSION,
-                                           'site_title': settings.SITE_TITLE
-                                           })
+                                          non_quote_response)
     return response
 
 
 @router.get("/documentation" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
-async def about(response: Response, request:Request):
+async def documentation(response: Response, request:Request):
+    non_quote_response = settings.non_quote_response(request)
     response = templates.TemplateResponse("documentation.html", 
-                                          {"request": request,
-                                           "year": settings.YEAR,
-                                           "version": settings.VERSION,
-                                           'site_title': settings.SITE_TITLE
-                                           })
+                                          non_quote_response)
     return response
 
 
