@@ -17,11 +17,40 @@ GET http://127.0.0.1:8000/submissions
 
 ### api requests ###
 
+# authentication 
+
+### registration
+POST http://127.0.0.1:8000/auth/register
+content-type: application/json
+
+{
+  "email": "user@example.com",
+  "password": ""
+}
+
+### login with password
+POST http://127.0.0.1:8000/auth/login
+content-type: application/json
+
+{
+  "email": "wtfisup@hotmail.com",
+  "password": ""
+}
+
+### with token generated 
+POST http://127.0.0.1:8000/api/v1/categories/
+content-type: application/json
+Authorization: Bearer eyJhbGcOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODQwOTI3OTIsInN1YiI6InVzZXJAZXhhbXBsZS5jb20ifQ.Yla4ESERnAhmudUWcKkKAsAd2Cmokeqo4xSPwS3fbg0
+  
+
+# open endpoints
 ### get random quote
 POST http://127.0.0.1:8000/api/v1/random/
 
 ### get daily quote
 POST http://127.0.0.1:8000/api/v1/daily/
+
+# protected endpoints 
 
 ### get list of categories
 POST http://127.0.0.1:8000/api/v1/categories/
