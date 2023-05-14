@@ -53,3 +53,7 @@ This command is setup to run in the docker container for any migrations made out
 call scraper via docker. Use this in the crontab job. 
 
 `docker exec -it <CONTAINER ID> python -m scraper`
+
+export db 
+`docker cp <container-id>:/usr/src/app/core/schema/quotes_app.sqlite3 ./quotes_app.sqlite3`
+
