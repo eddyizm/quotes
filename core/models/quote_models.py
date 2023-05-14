@@ -18,6 +18,7 @@ class Author(BaseModel):
 
 
 class Quote_Staging(BaseModel):
+    id: int
     quote: str
     author: str
     category: str
