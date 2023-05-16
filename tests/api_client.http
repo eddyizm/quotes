@@ -38,9 +38,9 @@ content-type: application/json
 }
 
 ### with token generated 
-POST http://127.0.0.1:8000/api/v1/categories/
+POST http://127.0.0.1:8000/api/v1/quote/submissions/
 content-type: application/json
-Authorization: Bearer eyJhbGcOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODQwOTI3OTIsInN1YiI6InVzZXJAZXhhbXBsZS5jb20ifQ.Yla4ESERnAhmudUWcKkKAsAd2Cmokeqo4xSPwS3fbg0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODQxMDA2ODMsInN1YiI6Ind0ZmlzdXBAaG90bWFpbC5jb20ifQ.z-TRli43ziit9fkYt6L7Ymf7E61RM0ASGVfTAfFGjE8
   
 
 # open endpoints
