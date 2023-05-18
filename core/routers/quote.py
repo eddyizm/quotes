@@ -18,7 +18,7 @@ async def get_random_quote():
 
 
 async def get_quote_submissions():
-    query = quotes_staging.select()
+    query = quotes_staging.select().where(quotes_staging.c.added_to_quotes == False).limit(10)
     return await database.fetch_all(query)
 
 
