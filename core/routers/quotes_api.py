@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy import select
 
 from core.models.quote_models import Author, Category, Quote, Quote_Staging
-from core.routers.quote import daily_quote, get_random_quote, get_quote_submissions, submit_new_quote
+from core.routers.quote import daily_quote, get_random_quote, get_quote_submissions, submit_new_quote, approve_new_quote
 from core.security import AuthHandler
 from core.schema.dal import quotes, database
 
@@ -56,5 +56,15 @@ async def submissions(email=Depends(auth_handler.auth_wrapper)):
     # TODO this will be an elevated permission
     try:
         return await get_quote_submissions()
+    except HTTPException:
+        raise HTTPException
+
+
+@router.put('/quote/submissions/{id}')
+async def approve_submission(id: int):
+    ''' Return list of unprocess quote submissions '''
+    # TODO this will be an elevated permission
+    try:
+        return await approve_new_quote(id)
     except HTTPException:
         raise HTTPException
