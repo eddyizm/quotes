@@ -55,5 +55,5 @@ call scraper via docker. Use this in the crontab job.
 `docker exec -it <CONTAINER ID> python -m scraper`
 
 export db 
-`docker cp <container-id>:/usr/src/app/core/schema/quotes_app.sqlite3 ./quotes_app.sqlite3`
+`docker cp <container-id>:/usr/src/app/core/schema/quotes_app.sqlite3 ./quotes_app.sqlite3_$(date +"%m-%d-%Y")`
 
