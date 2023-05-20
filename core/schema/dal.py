@@ -42,7 +42,7 @@ quotes_staging = sqlalchemy.Table(
     sqlalchemy.Column('category', sqlalchemy.String(25)),
     sqlalchemy.Column('quote', sqlalchemy.String(2000)),
     sqlalchemy.Column('author', sqlalchemy.String(50)),
-    sqlalchemy.Column('added_to_quotes', sqlalchemy.Boolean, server_default=expression.false()),
+    sqlalchemy.Column('added_to_quotes', sqlalchemy.Integer, nullable=False, server_default='0'),
     sqlalchemy.Column('added_by', sqlalchemy.String(50)),
     sqlalchemy.Column('date_created', sqlalchemy.DATE(), server_default=func.now())
     )
