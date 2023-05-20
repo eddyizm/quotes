@@ -23,7 +23,8 @@ pip install -r requirements.txt
 Launch server  
 ```  
 uvicorn main:app --reload  
-```
+```  
+---
 ## db migrations with Alembic  
 Set this up after starting project. After installing, set up locally  
 
@@ -35,10 +36,13 @@ Show current
 and then history  
 `alembeic hsitory`  
 Now upgrade to the latest, similar to a `git pull`  
-`alembic upgrade head`  
+`alembic upgrade head`   
+*This command is setup to run in the docker container for any migrations made outside.*
 
-This command is setup to run in the docker container for any migrations made outside.
+Create new migration  
+`alembic revision -m "<YOUR MESSAGE>"`  
 
+---
 ## Docker build and run
 `docker build -t quote_api .`  
 
