@@ -34,7 +34,7 @@ async def submit_new_quote(new_quote: Quote_Staging):
 
 
 async def approve_new_quote(quote_id: int):
-    query = quotes_staging.select().where(quotes_staging.c.added_to_quotes == False).\
+    query = quotes_staging.select().where(quotes_staging.c.added_to_quotes == 0).\
         where(quotes_staging.c.id == quote_id)
     new_quote = await database.fetch_one(query)
     insert_query =  quotes.insert().values(
@@ -43,5 +43,12 @@ async def approve_new_quote(quote_id: int):
             category = new_quote.category,
             date_added = datetime.now().date()
         )
-    return await database.execute(insert_query)
+    response = await database.execute(insert_query)
+    if response:
+        # update original staging quote with new id
+        # need to test and validate response is an int and
+        # check what an error looks like. Also refactor all of this into smaller functions.
+        update_stmt = quotes_staging.update().\
+            where(quotes_staging.c.id == quote_id).values(added_to_quotes=response)
+        await database.execute(update_stmt)
   
