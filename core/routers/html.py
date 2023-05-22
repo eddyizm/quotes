@@ -44,7 +44,7 @@ async def about(response: Response, request:Request):
     return response
 
 
-@router.get("/documentation" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
+@router.get("/documentation", response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
 async def documentation(response: Response, request:Request):
     non_quote_response = settings.non_quote_response(request)
     response = templates.TemplateResponse("documentation.html", 
