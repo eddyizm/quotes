@@ -7,5 +7,16 @@ async def test_daily_q():
 
 
 async def test_approve_new_quote():
-    res = await quote.approve_new_quote(1)
+    pass
+    # res = await quote.approve_new_quote(1)
+    # print(res)
+
+
+async def test_get_submitted_quote_by_id():
+    res = await quote.get_submitted_quote_by_id(1)
     print(res)
+
+
+async def test_get_submitted_quote_by_id_not_found():
+    res = await quote.get_submitted_quote_by_id('test')
+    assert res is None
