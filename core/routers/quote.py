@@ -45,6 +45,21 @@ async def get_submitted_quote_by_id(quote_id) -> Quote:
 
 async def approve_new_quote(quote_id: int):
     new_quote = get_submitted_quote_by_id(quote_id)
+    response = await insert_new_quote(new_quote)
+    if response:
+        # update original staging quote with new id
+        # need to test and validate response is an int and
+        # check what an error looks like. Also refactor all of this into smaller functions.
+        await update_submitted_quote(quote_id, response)
+
+
+async def update_submitted_quote(quote_id, response):
+    update_stmt = quotes_staging.update().\
+            where(quotes_staging.c.id == quote_id).values(added_to_quotes=response)
+    await database.execute(update_stmt)
+
+
+async def insert_new_quote(new_quote):
     insert_query =  quotes.insert().values(
             quote = new_quote.quote,
             author = new_quote.author,
@@ -52,11 +67,5 @@ async def approve_new_quote(quote_id: int):
             date_added = datetime.now().date()
         )
     response = await database.execute(insert_query)
-    if response:
-        # update original staging quote with new id
-        # need to test and validate response is an int and
-        # check what an error looks like. Also refactor all of this into smaller functions.
-        update_stmt = quotes_staging.update().\
-            where(quotes_staging.c.id == quote_id).values(added_to_quotes=response)
-        await database.execute(update_stmt)
+    return response
   
