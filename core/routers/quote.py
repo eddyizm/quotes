@@ -33,6 +33,26 @@ async def submit_new_quote(new_quote: Quote_Staging):
     return await database.execute(query)
 
 
+async def update_submitted_quote(quote_id, response):
+    """ Set added to quote field to new quote id, flagging as updated """
+    update_stmt = quotes_staging.update().\
+            where(quotes_staging.c.id == quote_id).\
+            values(added_to_quotes=response)
+    return await database.execute(update_stmt)
+
+
+async def insert_new_quote(new_quote):
+    """given new quote, insert to quotes table"""
+    insert_query =  quotes.insert().values(
+            quote = new_quote.quote,
+            author = new_quote.author,
+            category = new_quote.category,
+            date_added = datetime.now().date()
+        )
+    response = await database.execute(insert_query)
+    return response
+
+
 async def get_submitted_quote_by_id(quote_id) -> Quote:
     """ Get submitted quote from staging table that has not yet been approved"""
     try:
@@ -44,28 +64,12 @@ async def get_submitted_quote_by_id(quote_id) -> Quote:
 
 
 async def approve_new_quote(quote_id: int):
-    new_quote = get_submitted_quote_by_id(quote_id)
+    """
+        approve submitted quote
+        TODO will need to add a fuzzy duplicate check
+    """
+    new_quote = await get_submitted_quote_by_id(quote_id)
     response = await insert_new_quote(new_quote)
     if response:
-        # update original staging quote with new id
-        # need to test and validate response is an int and
-        # check what an error looks like. Also refactor all of this into smaller functions.
-        await update_submitted_quote(quote_id, response)
-
-
-async def update_submitted_quote(quote_id, response):
-    update_stmt = quotes_staging.update().\
-            where(quotes_staging.c.id == quote_id).values(added_to_quotes=response)
-    await database.execute(update_stmt)
-
-
-async def insert_new_quote(new_quote):
-    insert_query =  quotes.insert().values(
-            quote = new_quote.quote,
-            author = new_quote.author,
-            category = new_quote.category,
-            date_added = datetime.now().date()
-        )
-    response = await database.execute(insert_query)
-    return response
+        return await update_submitted_quote(quote_id, response)
   

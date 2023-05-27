@@ -7,9 +7,8 @@ async def test_daily_q():
 
 
 async def test_approve_new_quote():
-    pass
-    # res = await quote.approve_new_quote(1)
-    # print(res)
+    res = await quote.approve_new_quote(1)
+    print(res)
 
 
 async def test_get_submitted_quote_by_id():
