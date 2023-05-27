@@ -19,7 +19,7 @@ async def get_random_quote():
 
 
 async def get_quote_submissions():
-    query = quotes_staging.select().where(quotes_staging.c.added_to_quotes == False).limit(25)
+    query = quotes_staging.select().where(quotes_staging.c.added_to_quotes == 0).limit(50)
     return await database.fetch_all(query)
 
 
@@ -72,4 +72,3 @@ async def approve_new_quote(quote_id: int):
     response = await insert_new_quote(new_quote)
     if response:
         return await update_submitted_quote(quote_id, response)
-  
