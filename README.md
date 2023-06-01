@@ -39,6 +39,9 @@ Now upgrade to the latest, similar to a `git pull`
 `alembic upgrade head`   
 *This command is setup to run in the docker container for any migrations made outside.*
 
+Downgrade to a previous version  
+`alembic downgrade -1`
+
 Create new migration  
 `alembic revision -m "<YOUR MESSAGE>"`  
 
