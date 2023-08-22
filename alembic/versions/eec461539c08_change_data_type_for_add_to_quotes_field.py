@@ -17,10 +17,11 @@ depends_on = None
 
 
 def upgrade() -> None:
-    op.drop_column(table_name='quotes_staging',
-                   column_name='added_to_quotes')
+    with op.batch_alter_table('quotes_staging') as batch_op:
+        batch_op.drop_column('added_to_quotes')
     
-    op.add_column(table_name='quotes_staging',
+    with op.batch_alter_table('quotes_staging') as batch_op:
+        batch_op.add_column(table_name='quotes_staging',
                   column=sa.Column(
                     'added_to_quotes',
                     sa.Integer(),
