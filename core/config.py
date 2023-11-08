@@ -11,7 +11,7 @@ class Settings:
     VERSION = os.getenv('VERSION')
     SECRET_KEY = os.getenv('SECRET_KEY')
     ALGORITHM = 'HS256'
-    ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES')
+    ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES'))
     YEAR=year
 
     def quote_response(self, request, quote) -> dict:
