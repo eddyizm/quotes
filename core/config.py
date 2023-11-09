@@ -13,6 +13,12 @@ class Settings:
     ALGORITHM = 'HS256'
     ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES'))
     YEAR=year
+    POSTGRES_SERVER=os.getenv('POSTGRES_SERVER')
+    POSTGRES_USER=os.getenv('POSTGRES_USER')
+    POSTGRES_PASSWORD=os.getenv('POSTGRES_PASSWORD')
+    POSTGRES_DB=os.getenv('POSTGRES_DB')
+    POSTGRES_PORT=os.getenv('POSTGRES_PORT')
+
 
     def quote_response(self, request, quote) -> dict:
         return {"request": request, 

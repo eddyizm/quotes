@@ -34,3 +34,13 @@ services:
     ports:
       - 8000:8000
     restart: always
+
+  postgres_db:
+    image: docker.io/postgres:latest
+    restart: unless-stopped
+    volumes:
+      - dbdata:/var/lib/postgresql/data 
+    ports:
+      - 5432:5432
+    env_file:
+      - core/.env
