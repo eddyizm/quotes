@@ -1,0 +1,1 @@
+from bin.convert_sqlite_to_postgres import load_data
