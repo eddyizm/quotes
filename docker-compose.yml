@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-
   # Proxies requests to internal services
   reverse-proxy:
     image: nginx:1.17.1-alpine
@@ -44,7 +43,7 @@ services:
       - 5432:5432
     env_file:
       - core/.env
-  
-  volumes:
-    dbdata:
+
+volumes:
+  dbdata:
   
