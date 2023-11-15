@@ -1,6 +1,7 @@
 from datetime import datetime
 import os
 from dotenv import load_dotenv
+from urllib.parse import quote
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -15,7 +16,7 @@ class Settings:
     YEAR=year
     POSTGRES_SERVER=os.getenv('POSTGRES_SERVER')
     POSTGRES_USER=os.getenv('POSTGRES_USER')
-    POSTGRES_PASSWORD=os.getenv('POSTGRES_PASSWORD')
+    POSTGRES_PASSWORD=quote(os.getenv('POSTGRES_PASSWORD'))
     POSTGRES_DB=os.getenv('POSTGRES_DB')
     POSTGRES_PORT=os.getenv('POSTGRES_PORT')
 

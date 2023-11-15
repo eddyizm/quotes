@@ -1,6 +1,8 @@
 import sqlalchemy
 from datetime import datetime
 from databases import Database
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.sqltypes import Boolean
 from sqlalchemy.sql import func, expression
 
@@ -58,3 +60,7 @@ quote_history = sqlalchemy.Table(
     ) 
 
 metadata.create_all(engine)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
