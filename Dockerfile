@@ -1,8 +1,8 @@
 FROM python:3.10.13-alpine3.18
 WORKDIR /usr/src/app
 COPY requirements.txt ./
-RUN apt-get update \
-    && apt-get -y install libpq-dev gcc \
+RUN apk update \
+    && apk add libpq-dev gcc \
     && pip install psycopg2
 RUN pip install --upgrade pip setuptools wheel && pip install --no-cache-dir -r requirements.txt
 COPY . .
