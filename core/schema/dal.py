@@ -59,8 +59,5 @@ quote_history = sqlalchemy.Table(
     sqlalchemy.Column('quote_id_fk', sqlalchemy.Integer, nullable=False),
     ) 
 
-metadata.create_all(engine)
-
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-Base = declarative_base()

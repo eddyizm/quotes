@@ -11,6 +11,7 @@ async def daily_quote() -> Quote:
     query = select(quotes, quote_history.c.date_sent).join(
         quote_history, quotes.c.id == quote_history.c.quote_id_fk
         ).order_by(quote_history.c.date_sent.desc())
+    await database.connect()
     return await database.fetch_one(query)
 
 
