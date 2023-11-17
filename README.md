@@ -34,7 +34,7 @@ Show current
 
 `alembic current`  
 and then history  
-`alembeic hsitory`  
+`alembeic history`  
 Now upgrade to the latest, similar to a `git pull`  
 `alembic upgrade head`   
 *This command is setup to run in the docker container for any migrations made outside.*
@@ -72,7 +72,7 @@ run script in root this may be retired in the podman setup
 Set up pod to put all related app containers together, like docker compose.  Note mapped ports are only declared at the top level , rather the pod the containers are in.
 
 Build quote app image first
-`sudo podman build -t quote_app -f Dockerfile`
+`sudo podman build -t quote-app -f Dockerfile`
 
 `podman pod create -p 8080:80 -p 8081:443 --name=quote_pod`  
 
@@ -81,7 +81,7 @@ and nginx container in pod
 
 `podman run -d --pod=quote_pod --name=postgres_db --restart=unless-stopped -v dbdata:/var/lib/postgresql/data  --env-file core/.env docker.io/postgres:latest`
 
-`podman run -d --pod=quote_pod --name=quote-app --restart=unless-stopped quote-app`
+`podman run -d --pod=quote_pod --name=quote-app --restart=unless-stopped quote_app`
 
 oracle vps setup
 

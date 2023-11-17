@@ -6,7 +6,7 @@ from sqlalchemy.sql import func
 from core.config import settings
 
 # DATABASE_URL = 'sqlite:///./core/schema/quotes_app.sqlite3'
-DATABASE_URL = f'postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_SERVER}/{settings.POSTGRES_DB}'
+DATABASE_URL = f'postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_SERVER}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}'
 
 database = Database(DATABASE_URL, min_size=5, max_size=20)
 metadata = sqlalchemy.MetaData()

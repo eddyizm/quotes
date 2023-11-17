@@ -16,6 +16,7 @@ dal.metadata.create_all(dal.engine)
 @app.on_event("startup")
 async def startup():
     await dal.database.connect()
+    print('database connected on startup')
 
 
 @app.on_event("shutdown")
