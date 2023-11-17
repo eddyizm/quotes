@@ -6,6 +6,7 @@ from core.config import settings
 from core.routers.quote import daily_quote, get_random_quote, get_quote_submissions
 from core.security import AuthHandler
 
+
 templates = Jinja2Templates(directory="html/templates")
 router = APIRouter()
 auth_handler = AuthHandler()

@@ -1,30 +1,30 @@
 '''Shared code'''
 from datetime import datetime
+from fastapi import Depends
 from sqlalchemy import select, exc
 from core.models.quote_models import Quote, Quote_Staging
 from core.schema.sql_views import RANDOM_QUOTE
-from core.schema.dal import quotes, quote_history, quotes_staging, database
+from core.schema.dal import quotes, quote_history, quotes_staging, database, connect_to_db
+    
 
-
-async def daily_quote() -> Quote:
+async def daily_quote(db=Depends(connect_to_db)) -> Quote:
     ''' Get daily quote '''
     query = select(quotes, quote_history.c.date_sent).join(
         quote_history, quotes.c.id == quote_history.c.quote_id_fk
         ).order_by(quote_history.c.date_sent.desc())
-    await database.connect()
     return await database.fetch_one(query)
 
 
-async def get_random_quote():
+async def get_random_quote(db=Depends(connect_to_db)):
     return await database.fetch_one(RANDOM_QUOTE)
 
 
-async def get_quote_submissions():
+async def get_quote_submissions(db=Depends(connect_to_db)):
     query = quotes_staging.select().where(quotes_staging.c.added_to_quotes == 0).limit(50)
     return await database.fetch_all(query)
 
 
-async def submit_new_quote(new_quote: Quote_Staging):
+async def submit_new_quote(new_quote: Quote_Staging, db=Depends(connect_to_db)):
     query = quotes_staging.insert().values(
             quote = new_quote.quote,
             author = new_quote.author,
@@ -34,7 +34,7 @@ async def submit_new_quote(new_quote: Quote_Staging):
     return await database.execute(query)
 
 
-async def update_submitted_quote(quote_id, response):
+async def update_submitted_quote(quote_id, response, db=Depends(connect_to_db)):
     """ Set added to quote field to new quote id, flagging as updated """
     update_stmt = quotes_staging.update().\
             where(quotes_staging.c.id == quote_id).\
@@ -42,7 +42,7 @@ async def update_submitted_quote(quote_id, response):
     return await database.execute(update_stmt)
 
 
-async def insert_new_quote(new_quote):
+async def insert_new_quote(new_quote, db=Depends(connect_to_db)):
     """given new quote, insert to quotes table"""
     insert_query =  quotes.insert().values(
             quote = new_quote.quote,
@@ -54,7 +54,7 @@ async def insert_new_quote(new_quote):
     return response
 
 
-async def get_submitted_quote_by_id(quote_id) -> Quote:
+async def get_submitted_quote_by_id(quote_id, db=Depends(connect_to_db)) -> Quote:
     """ Get submitted quote from staging table that has not yet been approved"""
     try:
         query = quotes_staging.select().where(quotes_staging.c.added_to_quotes == 0).\
@@ -64,7 +64,7 @@ async def get_submitted_quote_by_id(quote_id) -> Quote:
         raise ex
 
 
-async def approve_new_quote(quote_id: int):
+async def approve_new_quote(quote_id: int, db=Depends(connect_to_db)):
     """
         approve submitted quote
         TODO will need to add a fuzzy duplicate check

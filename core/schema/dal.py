@@ -1,17 +1,14 @@
 import sqlalchemy
 from datetime import datetime
 from databases import Database
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.sql.sqltypes import Boolean
-from sqlalchemy.sql import func, expression
+from sqlalchemy.sql import func
 
 from core.config import settings
 
 # DATABASE_URL = 'sqlite:///./core/schema/quotes_app.sqlite3'
 DATABASE_URL = f'postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_SERVER}/{settings.POSTGRES_DB}'
 
-database = Database(DATABASE_URL)
+database = Database(DATABASE_URL, min_size=5, max_size=20)
 metadata = sqlalchemy.MetaData()
 engine = sqlalchemy.create_engine(
     DATABASE_URL, echo = True
@@ -59,5 +56,11 @@ quote_history = sqlalchemy.Table(
     sqlalchemy.Column('quote_id_fk', sqlalchemy.Integer, nullable=False),
     ) 
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+async def connect_to_db():
+    try:
+        result = await database.connection()
+        # TODO log this 
+        return await database.connect()
+    except:
+        raise Exception('Unable to connect to database')
