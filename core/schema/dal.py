@@ -9,10 +9,12 @@ from core.config import settings
 DATABASE_URL = f'postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_SERVER}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}'
 
 database = Database(DATABASE_URL, min_size=5, max_size=20)
-metadata = sqlalchemy.MetaData()
 engine = sqlalchemy.create_engine(
     DATABASE_URL, echo = True
 )
+metadata = sqlalchemy.MetaData()
+
+
 
 users = sqlalchemy.Table(
     'users',
