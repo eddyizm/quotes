@@ -131,3 +131,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# ignore exported staging csv
+data/backups/*
