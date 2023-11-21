@@ -25,13 +25,16 @@ async def get_quote_submissions(db=Depends(connect_to_db)):
 
 
 async def submit_new_quote(new_quote: Quote_Staging, db=Depends(connect_to_db)):
-    query = quotes_staging.insert().values(
-            quote = new_quote.quote,
-            author = new_quote.author,
-            category = new_quote.category,
-            added_by = new_quote.added_by
-        )
-    return await database.execute(query)
+    try:
+        query = quotes_staging.insert().values(
+                quote = new_quote.quote,
+                author = new_quote.author,
+                category = new_quote.category,
+                added_by = new_quote.added_by
+            )
+        return await database.execute(query)
+    except Exception as ex:
+        print(f'exceptiion detail: object \n{new_quote}\n{ex}')
 
 
 async def update_submitted_quote(quote_id, response, db=Depends(connect_to_db)):

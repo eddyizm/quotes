@@ -5,7 +5,6 @@ from sqlalchemy.sql import func
 
 from core.config import settings
 
-# DATABASE_URL = 'sqlite:///./core/schema/quotes_app.sqlite3'
 DATABASE_URL = f'postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_SERVER}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}'
 
 database = Database(DATABASE_URL, min_size=5, max_size=20)
@@ -42,7 +41,7 @@ quotes_staging = sqlalchemy.Table(
     'quotes_staging', # TODO add unique constraint for quote/author
     metadata,
     sqlalchemy.Column('id', sqlalchemy.Integer, primary_key=True,
-    autoincrement=True),
+    autoincrement=True, index=True),
     sqlalchemy.Column('category', sqlalchemy.String(25)),
     sqlalchemy.Column('quote', sqlalchemy.String(2000)),
     sqlalchemy.Column('author', sqlalchemy.String(50)),
@@ -61,8 +60,8 @@ quote_history = sqlalchemy.Table(
 
 async def connect_to_db():
     try:
-        result = await database.connection()
         # TODO log this 
+        print('trying to connect')
         return await database.connect()
     except:
         raise Exception('Unable to connect to database')

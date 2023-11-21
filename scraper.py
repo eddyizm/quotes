@@ -4,7 +4,7 @@ from datetime import datetime
 from core.models.quote_models import Quote_Staging
 from core.routers.quote import submit_new_quote
 from core.schema.jobs import insert_daily_quote
-
+from core.schema.dal import database
 
 URLS = {'love': 'https://www.brainyquote.com/link/quotelo.rss',
         'nature': 'https://www.brainyquote.com/link/quotena.rss',
@@ -14,6 +14,8 @@ URLS = {'love': 'https://www.brainyquote.com/link/quotelo.rss',
 
 def check_published_date(feed_info) -> bool:
     published = datetime.strptime(feed_info.published[0:16], '%a, %d %b %Y' )
+    print(f'published date: {published.date()}')
+    print(f'current timestampt: {datetime.now().date()}')
     if datetime.now().date() == published.date():
         print('published date is a match')
         return True
@@ -35,6 +37,7 @@ def parse_entry(entries, category):
             quote = entry.summary,
             author = entry.title,
             added_by = 'automated_py',
+            added_to_quotes = False,
             category = category
         )
         new_quotes.append(new_quote)
@@ -51,14 +54,22 @@ async def process_url(category, url):
     entries, feed_info = get_entries_and_feed_info(url)
     if check_published_date(feed_info):
         new_quotes = parse_entry(entries, category)
+
         await submit_quotes(new_quotes)
 
 
 async def read_feeds():
     print('inserting daily quote')
-    await insert_daily_quote()
-    for category, url in URLS.items():
-        await process_url(category, url)
+    try:
+        connected = await database.connect()
+        if database.is_connected:
+            await insert_daily_quote()
+            for category, url in URLS.items():
+                await process_url(category, url)
+        else:
+            raise Exception('did not get db connection.')
+    finally:
+        await database.disconnect()
 
 if __name__ == '__main__':
     asyncio.run(read_feeds())

@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
-
+from datetime import datetime
 
 class Quote(BaseModel):
     id: int
@@ -18,7 +18,7 @@ class Author(BaseModel):
 
 
 class Quote_Staging(BaseModel):
-    id: int
+    id: Optional[int]
     quote: str
     author: str
     category: str
