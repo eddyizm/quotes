@@ -24,27 +24,7 @@ Launch server
 ```  
 uvicorn main:app --reload  
 ```  
----
-## Docker build and run
-`docker build -t quote_api .`  
 
-`docker run -d -p 5432:8000 quote_api`  
-*using this port on my local dev machine to validate*  
-
-## Docker Compose  
-`docker compose up --build -d`
-
-## running jobs 
-
-call scraper via docker. Use this in the crontab job. 
-
-`docker exec -it <CONTAINER ID> python -m scraper`
-
-export db 
-`docker cp <container-id>:/usr/src/app/core/schema/quotes_app.sqlite3 ./quotes_app.sqlite3_$(date +"%m-%d-%Y")`
-
-## setup ssl certbot
-run script in root this may be retired in the podman setup
 
 # Podman   
 
@@ -53,12 +33,16 @@ Set up pod to put all related app containers together, like docker compose.  Not
 Build quote app image first
 `podman build -t quote-app -f Dockerfile`
 
+created volume to store certificates  
+`podman volume create letsencrypt`  
+build nginx/certbot image
+`podman build -t reverse-proxy -f nginx_dockerfile`  
+
+Create the pod
 `podman pod create -p 8080:80 -p 8081:443 --name=quote_pod`  
 
 and nginx container in pod
-`podman run -d --pod=quote_pod -v --name=reverse-proxy docker.io/library/nginx:1.25.3-alpine-slim`
-
-podman run -d --pod=quote_pod --name=reverse-proxy docker.io/library/nginx:1.25.3-alpine-slim
+`podman run -d --pod=quote_pod -v letsencrypt:/etc/letsencrypt --name=reverse-proxy  reverse-proxy` 
 
 `podman run -d --pod=quote_pod --name=postgres_db -v dbdata:/var/lib/postgresql/data  --env-file core/.env docker.io/postgres:latest`
 
@@ -67,15 +51,30 @@ podman run -d --pod=quote_pod --name=reverse-proxy docker.io/library/nginx:1.25.
 oracle vps setup
 
 ```  
-sudo firewall-cmd --add-masquerade
 sudo firewall-cmd --permanent --zone=public --add-port=80/tcp
+sudo firewall-cmd --permanent --zone=public --add-port=443/tcp
+sudo firewall-cmd --add-forward-port=port=80:proto=tcp:toport=8080
+sudo firewall-cmd --add-forward-port=port=443:proto=tcp:toport=8081
+sudo firewall-cmd --add-masquerade
 sudo firewall-cmd --list-forward-ports
+sudo firewall-cmd --runtime-to-permanent
 ```
 
 ### SSL
-created volume to store certificates
-`podman volume create letsencrypt`
-build image
-`podman build -t reverse-proxy -f nginx-dockerfile`
-then run it
-`podman run -d --pod=quote_pod -v $(pwd)/letsencrypt:/etc/letsencrypt --name=reverse-proxy  reverse-proxy`
+
+Enter nginx container:  
+`podman --exec -it reverse-proxy sh`  
+Run certbot and follow the prompts making sure the site is accessible via port 80/443
+`certbot --nginx -d yourdomain.com -d www.yourdomain.com`  
+Added cron job to execute command against the container
+ie.
+>  0 12 * * * /usr/bin/certbot renew --quiet
+
+### Docker 
+[Docker set up here](DOCKER.md)
+
+## running jobs 
+
+call scraper via container. Use this in the crontab job. 
+
+`podman exec quote-app date python -m scraper`

@@ -1,29 +1,19 @@
 version: '3'
 
 services:
-  # Proxies requests to internal services
+  # COMPOSE FILE IS OUT OF DATE
   reverse-proxy:
-    image: nginx:1.17.1-alpine
+    image: nginx:1.25.3-alpine-slim
     container_name: reverse-proxy
     depends_on:
         - quote-app
     volumes:
       - ./data/nginx:/etc/nginx/conf.d
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
     ports:
       - '80:80'
       - '443:443'
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   
-  certbot:
-    image: certbot/certbot
-    restart: unless-stopped
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-
   # app
   quote-app:
     image: quote-app

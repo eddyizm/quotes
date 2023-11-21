@@ -61,7 +61,7 @@ async def submissions(email=Depends(auth_handler.auth_wrapper)):
 
 
 @router.put('/quote/submissions/{id}')
-async def approve_submission(id: int):
+async def approve_submission(id: int, email=Depends(auth_handler.auth_wrapper)):
     ''' Return list of unprocess quote submissions '''
     # TODO this will be an elevated permission
     try:

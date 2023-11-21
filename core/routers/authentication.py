@@ -26,8 +26,8 @@ async def authenticate_user(username, password):
     except:
         raise RequiresLoginException()
 
-
-@router.post('/auth/register', status_code=status.HTTP_201_CREATED)
+# disabled the login and register routes until they are ready to test
+# @router.post('/auth/register', status_code=status.HTTP_201_CREATED)
 async def register(user: User):
     query = users.insert().values(email = user.email,
         password= auth_handler.get_hash_password(user.password))
@@ -35,8 +35,7 @@ async def register(user: User):
     return {'message': result}
 
 
-
-@router.post('/auth/login')
+# @router.post('/auth/login')
 async def login(user: User):
     if await authenticate_user(user.email, user.password):
         atoken = auth_handler.create_access_token(user.email)
