@@ -36,7 +36,7 @@ Build quote app image first
 created volume to store certificates  
 `podman volume create letsencrypt`  
 build nginx/certbot image
-`podman build -t reverse-proxy -f nginx_dockerfile`  
+`podman build --no-cache -t reverse-proxy -f nginx_dockerfile`  
 
 Create the pod
 `podman pod create -p 8080:80 -p 8081:443 --name=quote_pod`  
@@ -77,4 +77,4 @@ ie.
 
 call scraper via container. Use this in the crontab job. 
 
-`podman exec quote-app date python -m scraper`
+`podman exec quote-app python -m scraper`

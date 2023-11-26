@@ -3,3 +3,5 @@ __pycache__/
 .vscode
 .mypy_cache/
 *.pyc
+data/letsencrypt/
+data/backups/
