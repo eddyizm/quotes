@@ -2,9 +2,9 @@
 from datetime import datetime
 from fastapi import Depends
 from sqlalchemy import select, exc
-from core.models.quote_models import Quote, Quote_Staging
-from core.schema.sql_views import RANDOM_QUOTE
-from core.schema.dal import quotes, quote_history, quotes_staging, database, connect_to_db
+from src.core.models.quote_models import Quote, Quote_Staging
+from src.core.schema.sql_views import RANDOM_QUOTE
+from src.core.schema.dal import quotes, quote_history, quotes_staging, database, connect_to_db
     
 
 async def daily_quote(db=Depends(connect_to_db)) -> Quote:

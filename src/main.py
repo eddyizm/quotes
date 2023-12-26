@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from core.routers import authentication, html, quotes_api
-from core.schema import dal
+from src.core.routers import authentication, html, quotes_api
+from src.core.schema import dal
 
 app = FastAPI()
-app.mount("/html/static", StaticFiles(directory="html/static"), name="static")
+app.mount("/html/static", StaticFiles(directory="src/html/static"), name="static")
 
 app.include_router(html.router)
 app.include_router(quotes_api.router)

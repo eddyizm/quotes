@@ -1,10 +1,10 @@
 import asyncio
 import feedparser
 from datetime import datetime
-from core.models.quote_models import Quote_Staging
-from core.routers.quote import submit_new_quote
-from core.schema.jobs import insert_daily_quote
-from core.schema.dal import database
+from src.core.models.quote_models import Quote_Staging
+from src.core.routers.quote import submit_new_quote
+from src.core.schema.jobs import insert_daily_quote
+from src.core.schema.dal import database
 
 URLS = {'love': 'https://www.brainyquote.com/link/quotelo.rss',
         'nature': 'https://www.brainyquote.com/link/quotena.rss',

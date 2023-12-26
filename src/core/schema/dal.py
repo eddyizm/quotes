@@ -3,7 +3,7 @@ from datetime import datetime
 from databases import Database
 from sqlalchemy.sql import func
 
-from core.config import settings
+from src.core.config import settings
 
 DATABASE_URL = f'postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_SERVER}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}'
 

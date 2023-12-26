@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status, Response
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from core.config import settings
-from core.routers.quote import daily_quote, get_random_quote, get_quote_submissions
-from core.security import AuthHandler
+from src.core.config import settings
+from src.core.routers.quote import daily_quote, get_random_quote, get_quote_submissions
+from src.core.security import AuthHandler
 
 
 templates = Jinja2Templates(directory="html/templates")

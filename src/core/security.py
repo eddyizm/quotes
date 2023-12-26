@@ -4,7 +4,7 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from typing import Any, Union
 from jose import jwt
-from core.config import settings
+from src.core.config import settings
 
 
 class AuthHandler():

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, status, HTTPException
-from core.schema.dal import database, users
-from core.models.user_models import User
+from src.core.schema.dal import database, users
+from src.core.models.user_models import User
 
-from core.security import AuthHandler, RequiresLoginException
+from src.core.security import AuthHandler, RequiresLoginException
 
 
 router = APIRouter()

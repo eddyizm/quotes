@@ -132,5 +132,5 @@ dmypy.json
 .pyre/
 
 # ignore exported staging csv
-data/backups/*
-data/letsencrypt/
+src/data/backups/*
+src/data/letsencrypt/

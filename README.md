@@ -30,6 +30,8 @@ uvicorn main:app --reload
 
 Set up pod to put all related app containers together, like docker compose.  Note mapped ports are only declared at the top level , rather the pod the containers are in.
 
+// moving this pod building to a start up script
+
 Build quote app image first
 `podman build -t quote-app -f Dockerfile`
 
