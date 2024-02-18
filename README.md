@@ -43,7 +43,7 @@ build nginx/certbot image
 Create the pod
 `podman pod create -p 8080:80 -p 8081:443 --name=quote_pod`  
 
-and nginx container in pod
+and nginx container in pod  
 `podman run -d --pod=quote_pod -v letsencrypt:/etc/letsencrypt --name=reverse-proxy  reverse-proxy` 
 
 `podman run -d --pod=quote_pod --name=postgres_db -v dbdata:/var/lib/postgresql/data  --env-file core/.env docker.io/postgres:latest`
@@ -65,7 +65,7 @@ sudo firewall-cmd --runtime-to-permanent
 ### SSL
 
 Enter nginx container:  
-`podman --exec -it reverse-proxy sh`  
+`podman exec -it reverse-proxy sh`  
 Run certbot and follow the prompts making sure the site is accessible via port 80/443
 `certbot --nginx -d yourdomain.com -d www.yourdomain.com`  
 Added cron job to execute command against the container
