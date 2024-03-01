@@ -10,11 +10,12 @@ podman pod create -p 8080:80 -p 8081:443 --name=quote_pod
 echo "Starting quote pod..."
 podman pod start quote_pod 
 
-echo "Create nginx container in pod"
-podman run -d --pod=quote_pod -v letsencrypt:/etc/letsencrypt --name=reverse-proxy  reverse-proxy
+# echo "Create nginx container in pod"
+# podman run -d --pod=quote_pod -v letsencrypt:/etc/letsencrypt --name=reverse-proxy  reverse-proxy
 
+echo "Starting Caddy webserver container in pod"
 podman run -d --pod=quote_pod \
-    -v $PWD/Caddyfile:/etc/caddy/Caddyfile \
+    -v $PWD/Caddyfile:/etc/caddy/Caddyfile:z \
     -v letsencrypt:/data \
     docker.io/library/caddy:2.7.6-alpine
 
