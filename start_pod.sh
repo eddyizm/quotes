@@ -10,9 +10,6 @@ podman pod create -p 8080:80 -p 8081:443 --name=quote_pod
 echo "Starting quote pod..."
 podman pod start quote_pod 
 
-# echo "Create nginx container in pod"
-# podman run -d --pod=quote_pod -v letsencrypt:/etc/letsencrypt --name=reverse-proxy  reverse-proxy
-
 echo "Starting Caddy webserver container in pod"
 podman run -d --pod=quote_pod \
     -v $PWD/Caddyfile:/etc/caddy/Caddyfile:z \
@@ -24,4 +21,3 @@ podman run -d --pod=quote_pod --name=postgres_db -v dbdata:/var/lib/postgresql/d
 
 echo "Spin up quotes app"
 podman run -d --pod=quote_pod --name=quote-app quote-app
-

@@ -32,24 +32,6 @@ Set up pod to put all related app containers together, like docker compose.  Not
 
 // moving this pod building to a start up script
 
-Build quote app image first
-`podman build -t quote-app -f Dockerfile`
-
-created volume to store certificates  
-`podman volume create letsencrypt`  
-build nginx/certbot image
-`podman build --no-cache -t reverse-proxy -f nginx_dockerfile`  
-
-Create the pod
-`podman pod create -p 8080:80 -p 8081:443 --name=quote_pod`  
-
-and nginx container in pod  
-`podman run -d --pod=quote_pod -v letsencrypt:/etc/letsencrypt --name=reverse-proxy  reverse-proxy` 
-
-`podman run -d --pod=quote_pod --name=postgres_db -v dbdata:/var/lib/postgresql/data  --env-file core/.env docker.io/postgres:latest`
-
-`podman run -d --pod=quote_pod --name=quote-app quote-app`
-
 oracle vps setup
 
 ```  
@@ -61,16 +43,6 @@ sudo firewall-cmd --add-masquerade
 sudo firewall-cmd --list-forward-ports
 sudo firewall-cmd --runtime-to-permanent
 ```
-
-### SSL
-
-Enter nginx container:  
-`podman exec -it reverse-proxy sh`  
-Run certbot and follow the prompts making sure the site is accessible via port 80/443
-`certbot --nginx -d yourdomain.com -d www.yourdomain.com`  
-Added cron job to execute command against the container
-ie.
->  0 12 * * * /usr/bin/certbot renew --quiet
 
 ### create systemd services
 Using the user flag, these generated files get stored here [podman docs](https://docs.podman.io/en/latest/markdown/podman-generate-systemd.1.html)  
