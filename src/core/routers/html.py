@@ -7,7 +7,7 @@ from src.core.routers.quote import daily_quote, get_random_quote, get_quote_subm
 from src.core.security import AuthHandler
 
 
-templates = Jinja2Templates(directory="html/templates")
+templates = Jinja2Templates(directory="src/html/templates")
 router = APIRouter()
 auth_handler = AuthHandler()
 
