@@ -1,29 +1,12 @@
 # quotes
 FastAPI quote app
 
-## local set up without docker
-
-create virtual env
-```  
-python -m venv env
-``` 
-activate virtual env (linux)
-
-```  
-source env/bin/activate
-``` 
-activate virtual env (windows)
-```
-source env/Scripts/activate
-```
-install requirements
-```
-pip install -r requirements.txt
-```
-Launch server  
-```  
-uvicorn main:app --reload  
-```  
+## local set up 
+set up local pod, container and db. 
+`podman pod create -p 8000:8000 -p 5432:5432 --name=quote_pod && podman pod start quote_pod`
+`podman build -t quote-app -f Dockerfile`
+`podman run -d --pod=quote_pod --name=postgres_db -v dbdata:/var/lib/postgresql/data  --env-file src/core/.env docker.io/postgres:latest`
+`podman run -d --pod=quote_pod --name=quote-app quote-app`
 
 
 # Podman   
