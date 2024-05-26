@@ -10,6 +10,9 @@ podman pod create -p 8080:80 -p 8081:443 --name=quote_pod
 echo "Starting quote pod..."
 podman pod start quote_pod 
 
+echo "Building quote app container..."
+podman build -t quote-app -f Dockerfile
+
 echo "Starting Caddy webserver container in pod"
 podman run -d --pod=quote_pod \
     -v $PWD/Caddyfile:/etc/caddy/Caddyfile:z \
