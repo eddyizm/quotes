@@ -1,5 +1,4 @@
 <div class="paper container">
-    
     <div class="col-6 col container-sm">
         <h2> {{ daily_quote.quote }}</h2>
         <h4> {{ daily_quote.author }}</h4>
@@ -9,6 +8,9 @@
         </a>
         <a href="/random">
             <button class="btn-small">Random</button>
+        </a>
+        <a href="{{ host_url }}/quote/{{ daily_quote.id }}">
+            <button class="btn-small"># permalink</button>
         </a>
     </div>
 </div>

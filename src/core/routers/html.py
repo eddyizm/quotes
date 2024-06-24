@@ -1,9 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, status, Response
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from src.core.config import settings
-from src.core.routers.quote import daily_quote, get_random_quote, get_quote_submissions
+from src.core.routers.quote import (
+    daily_quote,
+    get_random_quote,
+    get_quote_submissions,
+    get_quote_by_id
+)
 from src.core.security import AuthHandler
 
 
@@ -12,44 +17,57 @@ router = APIRouter()
 auth_handler = AuthHandler()
 
 
-@router.get("/" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
-async def home(response: Response, request:Request): 
-    response = templates.TemplateResponse("temp.html", {"request": request, "site_title": settings.SITE_TITLE })
+@router.get("/", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+async def home(response: Response, request: Request):
+    response = templates.TemplateResponse("temp.html", {"request": request, "site_title": settings.SITE_TITLE})
     return response
 
 
-@router.get("/home" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
-async def nav(response: Response, request:Request):
+@router.get("/home", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+async def nav(response: Response, request: Request):
     quote = await daily_quote()
     quote_response = settings.quote_response(request, quote)
-    response = templates.TemplateResponse("home.html", 
-                                          quote_response)
+    response = templates.TemplateResponse("home.html", quote_response)
     return response
 
 
-@router.get("/random" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
-async def random(response: Response, request:Request):
+@router.get("/random", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+async def random(response: Response, request: Request):
     quote = await get_random_quote()
     quote_response = settings.quote_response(request, quote)
     quote_response['page_title'] = 'Random Quote!'
-    response = templates.TemplateResponse("home.html", 
-                                          quote_response)
+    response = templates.TemplateResponse("home.html", quote_response)
     return response
 
 
-@router.get("/about" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
-async def about(response: Response, request:Request):
-    non_quote_response = settings.non_quote_response(request)
-    response = templates.TemplateResponse("about.html", 
-                                          non_quote_response)
+@router.get("/quote/{id}", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+async def quote_by_id(response: Response, id: int, request: Request):
+    quote = await get_quote_by_id(id)
+    print(f'TODO quote not found?: {quote}')
+    quote_response = settings.quote_response(request, quote)
+    quote_response['page_title'] = 'This Quote!'
+    response = templates.TemplateResponse("home.html", quote_response)
     return response
 
 
-@router.get("/documentation", response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
-async def documentation(response: Response, request:Request):
+@router.get("/about", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+async def about(response: Response, request: Request):
     non_quote_response = settings.non_quote_response(request)
-    response = templates.TemplateResponse("documentation.html", 
-                                          non_quote_response)
+    response = templates.TemplateResponse("about.html", non_quote_response)
+    return response
+
+
+@router.get("/404", response_class=HTMLResponse)
+async def lost(response: Response, request: Request):
+    non_quote_response = settings.non_quote_response(request)
+    response = templates.TemplateResponse("404.html", non_quote_response)
+    return response
+
+
+@router.get("/documentation", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+async def documentation(response: Response, request: Request):
+    non_quote_response = settings.non_quote_response(request)
+    response = templates.TemplateResponse("documentation.html", non_quote_response)
     return response
 
 

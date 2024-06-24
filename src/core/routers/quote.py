@@ -1,6 +1,6 @@
 '''Shared code'''
 from datetime import datetime
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from sqlalchemy import select, exc
 from src.core.models.quote_models import Quote, Quote_Staging
 from src.core.schema.sql_views import RANDOM_QUOTE
@@ -11,7 +11,7 @@ logger = logging.getLogger('uvicorn.error')
 
 async def daily_quote(db=Depends(connect_to_db)) -> Quote:
     ''' Get daily quote '''
-    logger.info('Getting dailyl quote')
+    logger.info('Getting daily quote')
     query = select(
         quotes, quote_history.c.date_sent).join(
         quote_history, quotes.c.id == quote_history.c.quote_id_fk
@@ -62,10 +62,21 @@ async def insert_new_quote(new_quote, db=Depends(connect_to_db)):
     return response
 
 
+async def get_quote_by_id(quote_id, db=Depends(connect_to_db)) -> Quote:
+    """ Get quote from id, eg permalink direct"""
+    try:
+        query = quotes.select().where(quotes.c.id == quote_id)
+        response = await database.fetch_one(query)
+        if not response:
+            raise HTTPException(status_code=404, detail="quote not found")
+        return response
+    except exc.NoResultFound as ex:
+        raise ex
+
+
 async def get_submitted_quote_by_id(quote_id, db=Depends(connect_to_db)) -> Quote:
     """ Get submitted quote from staging table that has not yet been approved"""
     try:
-        
         query = quotes_staging.select().where(quotes_staging.c.added_to_quotes == 0).\
             where(quotes_staging.c.id == quote_id)
         return await database.fetch_one(query)
