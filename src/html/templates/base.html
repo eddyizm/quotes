@@ -7,6 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', path='apple-touch-icon.png') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', path='favicon-32x32.png') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', path='favicon-16x16.png') }}">
+  <link rel="icon" href="{{ url_for('static', path="favicon.ico") }} />
+
+  <link rel="manifest" href="{{ url_for('static', path='site.webmanifest') }}">
   <!-- <link rel="stylesheet" href="{{ url_for('static', path='paper.min.css') }}" /> -->
   <link rel="stylesheet" href="https://unpkg.com/papercss@1.9.1/dist/paper.min.css" />
   <script defer src="https://cloud.umami.is/script.js" data-website-id="c5471987-411f-44ff-b516-3cb41971ab85"></script>
