@@ -1,29 +1,47 @@
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from sqlalchemy import select
 
 from src.core.models.quote_models import Author, Category, Quote, Quote_Staging
-from src.core.routers.quote import daily_quote, get_random_quote, get_quote_submissions, submit_new_quote, approve_new_quote
+from src.core.routers.quote import (
+    daily_quote,
+    get_random_quote,
+    get_quote_submissions,
+    submit_new_quote,
+    approve_new_quote,
+    get_quote_by_id
+)
 from src.core.security import AuthHandler
 from src.core.schema.dal import quotes, database
 
-
+logger = logging.getLogger('uvicorn.error')
 router = APIRouter(
-        prefix="/api/v1",
-    )
+    prefix="/api/v1",
+)
 auth_handler = AuthHandler()
 
 
 @router.post('/random/', response_model=Quote)
 async def random_quote():
     ''' Get random quote '''
-    return await get_random_quote()    
+    return await get_random_quote()
 
 
 @router.post('/daily/', response_model=Quote)
 async def get_daily_quote():
     ''' Get daily quote '''
     return await daily_quote()
+
+
+@router.post('/quote/{id}', response_model=Quote)
+async def quote_by_id_perma(id: int):
+    ''' Get daily quote '''
+    response = await get_quote_by_id(id)
+    if not response:
+        raise HTTPException(status_code=404, detail='Quote not found')
+    return response
 
 
 @router.post('/categories/', response_model=List[Category])
@@ -42,7 +60,7 @@ async def authors(email=Depends(auth_handler.auth_wrapper)):
 
 @router.post('/quote/submit/')
 async def new_quote(new_quote: Quote_Staging, email=Depends(auth_handler.auth_wrapper)):
-    ''' new quote submission '''    
+    ''' new quote submission '''
     try:
         # TODO make this a form submission endpoint.
         return await submit_new_quote(new_quote)

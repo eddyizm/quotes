@@ -50,6 +50,13 @@ POST http://127.0.0.1:8000/api/v1/random/
 ### get daily quote
 POST http://127.0.0.1:8000/api/v1/daily/
 
+
+### get quote by id
+POST http://127.0.0.1:8000/api/v1/quote/817
+
+### send a bad request -> should 404
+POST http://127.0.0.1:8000/api/v1/quote/999999
+
 # protected endpoints 
 
 ### get list of categories
