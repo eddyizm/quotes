@@ -66,11 +66,9 @@ async def get_quote_by_id(quote_id, db=Depends(connect_to_db)) -> Quote:
     """ Get quote from id, eg permalink direct"""
     try:
         query = quotes.select().where(quotes.c.id == quote_id)
-        response = await database.fetch_one(query)
-        if not response:
-            raise HTTPException(status_code=404, detail="quote not found")
-        return response
+        return await database.fetch_one(query)
     except exc.NoResultFound as ex:
+        logger.exception(f'error: {ex}')
         raise ex
 
 

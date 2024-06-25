@@ -38,7 +38,10 @@ async def get_daily_quote():
 @router.post('/quote/{id}', response_model=Quote)
 async def quote_by_id_perma(id: int):
     ''' Get daily quote '''
-    return await get_quote_by_id(id)
+    response = await get_quote_by_id(id)
+    if not response:
+        raise HTTPException(status_code=404, detail='Quote not found')
+    return response
 
 
 @router.post('/categories/', response_model=List[Category])
@@ -57,7 +60,7 @@ async def authors(email=Depends(auth_handler.auth_wrapper)):
 
 @router.post('/quote/submit/')
 async def new_quote(new_quote: Quote_Staging, email=Depends(auth_handler.auth_wrapper)):
-    ''' new quote submission '''    
+    ''' new quote submission '''
     try:
         # TODO make this a form submission endpoint.
         return await submit_new_quote(new_quote)
