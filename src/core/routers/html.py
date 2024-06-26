@@ -50,14 +50,22 @@ async def random(response: Response, request: Request):
 
 
 @router.get("/quote/{id}", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
-async def quote_by_id(response: Response, id: int, request: Request):
-    quote = await get_quote_by_id(id)
-    if not quote:
+async def quote_by_id(response: Response, id, request: Request):
+    try:
+        _id = int(id)
+        quote = await get_quote_by_id(_id)
+        if not quote:
+            return RedirectResponse('/404')
+        quote_response = settings.quote_response(request, quote)
+        quote_response['page_title'] = 'This Quote!'
+        response = templates.TemplateResponse("home.html", quote_response)
+        return response
+    except ValueError as ex:
+        logger.exception(f'return redirect: {ex}')
         return RedirectResponse('/404')
-    quote_response = settings.quote_response(request, quote)
-    quote_response['page_title'] = 'This Quote!'
-    response = templates.TemplateResponse("home.html", quote_response)
-    return response
+    except HTTPException as ex:
+        logger.debug('http exception')
+        raise
 
 
 @router.get("/about", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
