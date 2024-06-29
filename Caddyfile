@@ -19,7 +19,7 @@ ragingdharma.com {
                 
         reverse_proxy http://127.0.0.1:8000
         import boilerplate
-        tls eddyizm@gmail.com
+        tls tls@ragingdharma.com
 }
 
 www.ragingdharma.com {
