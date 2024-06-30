@@ -20,7 +20,7 @@ class Settings:
     POSTGRES_PASSWORD = quote(os.getenv("POSTGRES_PASSWORD"))
     POSTGRES_DB = os.getenv("POSTGRES_DB")
     POSTGRES_PORT = os.getenv("POSTGRES_PORT")
-    HOST_URL = os.getenv("HOST_URL")
+
 
     def quote_response(self, request, quote) -> dict:
         return {
@@ -30,7 +30,6 @@ class Settings:
             "version": self.VERSION,
             "page_title": "Daily Quote!",
             "daily_quote": quote,
-            "host_url": self.HOST_URL,
         }
 
     def non_quote_response(self, request) -> dict:
@@ -39,7 +38,6 @@ class Settings:
             "site_title": self.SITE_TITLE,
             "year": self.YEAR,
             "version": self.VERSION,
-            "host_url": self.HOST_URL,
         }
 
 
