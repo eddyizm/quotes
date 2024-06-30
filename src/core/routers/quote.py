@@ -1,5 +1,7 @@
 '''Shared code'''
+from cachetools import TTLCache
 from datetime import datetime
+
 from fastapi import Depends, HTTPException
 from sqlalchemy import select, exc
 from src.core.models.quote_models import Quote, Quote_Staging
@@ -8,18 +10,27 @@ from src.core.schema.dal import quotes, quote_history, quotes_staging, database,
 import logging
 
 logger = logging.getLogger('uvicorn.error')
+daily_quote_cache_key = str(datetime.now().date())
+cache = TTLCache(maxsize=100, ttl=60 * 60 * 6)
+
 
 async def daily_quote(db=Depends(connect_to_db)) -> Quote:
     ''' Get daily quote '''
-    logger.info('Getting daily quote')
-    query = select(
-        quotes, quote_history.c.date_sent).join(
-        quote_history, quotes.c.id == quote_history.c.quote_id_fk
-    ).order_by(quote_history.c.date_sent.desc())
-    return await database.fetch_one(query)
+    result = cache.get(daily_quote_cache_key)
+    if result is not None:
+        logger.info(f'Found it in cache for key {daily_quote_cache_key}')
+    else:
+        query = select(
+            quotes, quote_history.c.date_sent).join(
+            quote_history, quotes.c.id == quote_history.c.quote_id_fk
+        ).order_by(quote_history.c.date_sent.desc())
+        result = await database.fetch_one(query)
+        cache[daily_quote_cache_key] = result
+    return result
 
 
 async def get_random_quote(db=Depends(connect_to_db)):
+    logger.info('calling db for random quote')
     return await database.fetch_one(RANDOM_QUOTE)
 
 
@@ -65,8 +76,15 @@ async def insert_new_quote(new_quote, db=Depends(connect_to_db)):
 async def get_quote_by_id(quote_id, db=Depends(connect_to_db)) -> Quote:
     """ Get quote from id, eg permalink direct"""
     try:
-        query = quotes.select().where(quotes.c.id == quote_id)
-        return await database.fetch_one(query)
+        result = cache.get(quote_id)
+        if result is not None:
+            logger.info(f'Found it in cache for key {quote_id}')
+        else:
+            logger.info('accessing permalink quote id')
+            query = quotes.select().where(quotes.c.id == quote_id)
+            result = await database.fetch_one(query)
+            cache[quote_id] = result
+        return result
     except exc.NoResultFound as ex:
         logger.exception(f'error: {ex}')
         raise ex

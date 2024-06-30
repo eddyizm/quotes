@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
   <title>{{ site_title }}</title>
@@ -19,8 +19,8 @@
   <link rel="stylesheet" href="{{ url_for('static', path='custom.css') }}" />
 </head>
 
-<body>
-  <!-- navigation > -->
+<body style="background-color: #41403e">
+  <!-- start navigation > -->
   <nav class="border fixed split-nav">
     <div class="nav-brand">
       <h4><a href="/home">{{ site_title }}</a></h4>
@@ -42,13 +42,14 @@
       </div>
     </div>
   </nav>
-  <!-- < navigation  -->
-  <main class="paper">
+  <!-- < end navigation  -->
+  <main class="paper" >
     <div class="section">
       {% block content %} {% endblock %}
     </div>
-    {% include 'footer.html' %}
+    
   </main>
+  {% include 'footer.html' %}
 </body>
 
 </html>
