@@ -20,7 +20,7 @@ podman run -d --pod=quote_pod \
     docker.io/library/caddy:2.7.6-alpine
 
 echo "Spinning up postgres container"
-podman run -d --pod=quote_pod --name=postgres_db -v dbdata:/var/lib/postgresql/data  --env-file core/.env docker.io/postgres:latest
+podman run -d --pod=quote_pod --name=postgres_db -v dbdata:/var/lib/postgresql/data  --env-file src/core/.env docker.io/postgres:latest
 
 echo "Spin up quotes app"
 podman run -d --pod=quote_pod --name=quote-app quote-app
