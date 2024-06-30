@@ -46,3 +46,7 @@ enable/disable
 call scraper via container. Use this in the crontab job. 
 
 `podman exec quote-app python -m scraper`
+
+### check db in container
+
+`psql -U $POSTGRES_USER $POSTGRES_DB`

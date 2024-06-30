@@ -134,3 +134,4 @@ dmypy.json
 # ignore exported staging csv
 src/data/backups/*
 src/data/letsencrypt/
+.vscode/

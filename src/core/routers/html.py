@@ -37,6 +37,7 @@ async def nav(response: Response, request: Request):
     quote = await daily_quote()
     quote_response = settings.quote_response(request, quote)
     response = templates.TemplateResponse("home.html", quote_response)
+    response.headers["Cache-Control"] = "public, max-age=84600"
     return response
 
 
@@ -59,6 +60,7 @@ async def quote_by_id(response: Response, id, request: Request):
         quote_response = settings.quote_response(request, quote)
         quote_response['page_title'] = 'This Quote!'
         response = templates.TemplateResponse("home.html", quote_response)
+        response.headers["Cache-Control"] = "public, max-age=604800"
         return response
     except ValueError as ex:
         logger.exception(f'return redirect: {ex}')
@@ -72,6 +74,7 @@ async def quote_by_id(response: Response, id, request: Request):
 async def about(response: Response, request: Request):
     non_quote_response = settings.non_quote_response(request)
     response = templates.TemplateResponse("about.html", non_quote_response)
+    response.headers["Cache-Control"] = "public, max-age=604800, immutable"
     return response
 
 
