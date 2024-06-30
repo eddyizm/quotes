@@ -1,16 +1,24 @@
+html.dark body {
+    background: #41403e;
+    height: 100%;
+    margin: 0;
+}
+
+#top {
+    max-width: 1440px;
+    margin-top: 2em;
+}
+
 footer {
     width: 100%;
     text-align: center;
     margin: 0;
 }
 
- body {
-    margin: 0px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
- }
+/* #quote-container {
+   height: 100%;
+}
 
- #quote-container {
-    min-height: 50vh !important;
- }
+#base-container {
+   height: 100%;
+} */

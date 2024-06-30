@@ -21,7 +21,6 @@ class Settings:
     POSTGRES_DB = os.getenv("POSTGRES_DB")
     POSTGRES_PORT = os.getenv("POSTGRES_PORT")
 
-
     def quote_response(self, request, quote) -> dict:
         return {
             "request": request,
