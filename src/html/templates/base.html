@@ -7,6 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta property="og:url" content="https://www.ragingdharma.com/">
+  <meta property="og:title" content="Raging Dharma - Daily quotes">
+  <meta property="og:description" content="Daily Quote api">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', path='apple-touch-icon.png') }}">
   <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', path='favicon-32x32.png') }}">
   <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', path='favicon-16x16.png') }}">
@@ -19,37 +22,41 @@
   <link rel="stylesheet" href="{{ url_for('static', path='custom.css') }}" />
 </head>
 
-<body style="background-color: #41403e">
-  <!-- start navigation > -->
-  <nav class="border fixed split-nav">
-    <div class="nav-brand">
-      <h4><a href="/home">{{ site_title }}</a></h4>
+<body>
+  <div id="top" class="row site"> 
+    <div id="base-container" class="sm-12 md-12 col">
+      <!-- start navigation > -->
+      <nav class="border fixed split-nav">
+        <div class="nav-brand">
+          <h4><a href="/">{{ site_title }}</a></h4>
+        </div>
+        <div class="collapsible">
+          <input id="collapsible2" type="checkbox" name="collapsible2">
+          <label for="collapsible2">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+          </label>
+          <div class="collapsible-body">
+            <ul class="inline">
+              <li><a href="/documentation">Documentation</a></li>
+              <li><a href="/about">About</a></li>
+              <li><a href="/random">Random</a></li>
+              <!-- <li><a href="/submissions">Submissions</a></li> -->
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- < end navigation  -->
+      <main id="quote-container" class="paper" >
+        <div class="section">
+          {% block content %} {% endblock %}
+        </div>
+        
+      </main>
+      {% include 'footer.html' %}
     </div>
-    <div class="collapsible">
-      <input id="collapsible2" type="checkbox" name="collapsible2">
-      <label for="collapsible2">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-      </label>
-      <div class="collapsible-body">
-        <ul class="inline">
-          <li><a href="/documentation">Documentation</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/random">Random</a></li>
-          <!-- <li><a href="/submissions">Submissions</a></li> -->
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- < end navigation  -->
-  <main class="paper" >
-    <div class="section">
-      {% block content %} {% endblock %}
-    </div>
-    
-  </main>
-  {% include 'footer.html' %}
+  </div>
 </body>
 
 </html>

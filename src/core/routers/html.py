@@ -27,12 +27,6 @@ async def lost(response: Response, request: Request):
 
 
 @router.get("/", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
-async def home(response: Response, request: Request):
-    response = templates.TemplateResponse("temp.html", {"request": request, "site_title": settings.SITE_TITLE})
-    return response
-
-
-@router.get("/home", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 async def nav(response: Response, request: Request):
     quote = await daily_quote()
     quote_response = settings.quote_response(request, quote)
