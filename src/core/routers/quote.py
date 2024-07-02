@@ -10,15 +10,15 @@ from src.core.schema.dal import quotes, quote_history, quotes_staging, database,
 import logging
 
 logger = logging.getLogger('uvicorn.error')
-daily_quote_cache_key = str(datetime.now().date())
 cache = TTLCache(maxsize=100, ttl=60 * 60 * 6)
 
 
 async def daily_quote(db=Depends(connect_to_db)) -> Quote:
     ''' Get daily quote '''
+    daily_quote_cache_key = str(datetime.now().date())
     result = cache.get(daily_quote_cache_key)
     if result is not None:
-        logger.info(f'Found it in cache for key {daily_quote_cache_key}')
+        logger.info(f'Found daily quote key in cache: {daily_quote_cache_key}')
     else:
         query = select(
             quotes, quote_history.c.date_sent).join(
@@ -78,9 +78,9 @@ async def get_quote_by_id(quote_id, db=Depends(connect_to_db)) -> Quote:
     try:
         result = cache.get(quote_id)
         if result is not None:
-            logger.info(f'Found it in cache for key {quote_id}')
+            logger.info(f'Found quote id in key cache: {quote_id}')
         else:
-            logger.info('accessing permalink quote id')
+            logger.info(f'accessing permalink for {quote_id}')
             query = quotes.select().where(quotes.c.id == quote_id)
             result = await database.fetch_one(query)
             cache[quote_id] = result

@@ -31,7 +31,7 @@ async def nav(response: Response, request: Request):
     quote = await daily_quote()
     quote_response = settings.quote_response(request, quote)
     response = templates.TemplateResponse("home.html", quote_response)
-    response.headers["Cache-Control"] = "public, max-age=84600"
+    response.headers["Cache-Control"] = "public, max-age=21600"
     return response
 
 
