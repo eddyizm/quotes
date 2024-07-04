@@ -20,6 +20,9 @@ class Settings:
     POSTGRES_PASSWORD = quote(os.getenv("POSTGRES_PASSWORD"))
     POSTGRES_DB = os.getenv("POSTGRES_DB")
     POSTGRES_PORT = os.getenv("POSTGRES_PORT")
+    MAILGUN_KEY = os.getenv("MAILGUN_KEY")
+    MAILGUN_URL = os.getenv("MAILGUN_URL")
+    POSTMASTER_EMAIL = os.getenv("POSTMASTER_EMAIL")
 
     def quote_response(self, request, quote) -> dict:
         return {
