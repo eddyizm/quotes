@@ -10,6 +10,7 @@
             <div class="form-group">
                 <label for="from_email">email address</label>
                 <input
+                    class="input-block"    
                     type="email"
                     placeholder="youremail@domain.com"
                     id="from_email"
@@ -25,12 +26,12 @@
                     required="true"
                 ></textarea>
 
-                <div class="row">
+                <div id="cfblock" class="row">
                     <div
-                        id="cfblock"
                         class="cf-turnstile"
                         data-sitekey="0x4AAAAAAAeam8ntxcFbPdBj"
                         data-theme="dark"
+                        data-size="compact"
                     ></div>
                 </div>
                 <div id="sendbtn" class="row">
