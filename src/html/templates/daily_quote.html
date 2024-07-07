@@ -1,23 +1,21 @@
-<div class="paper container" id="quote-container">
-    <div class="col-12 col container">
-        {% if daily_quote.quote|length > 35 %}
-        <h5>{{ daily_quote.quote }}</h5>
-        <h4>{{ daily_quote.author }}</h4>
-        {% else %}
-        <h4>{{ daily_quote.quote }}</h4>
-        <h3>{{ daily_quote.author }}</h3>
-        {% endif %}
+<div class="col-12 col container">
+    {% if daily_quote.quote|length > 35 %}
+    <h5>{{ daily_quote.quote }}</h5>
+    <h4>{{ daily_quote.author }}</h4>
+    {% else %}
+    <h4>{{ daily_quote.quote }}</h4>
+    <h3>{{ daily_quote.author }}</h3>
+    {% endif %}
 
-        <p>category: {{ daily_quote.category }}</p>
+    <p>category: {{ daily_quote.category }}</p>
 
-        <a href="/documentation">
-            <button class="btn-small">Docs</button>
-        </a>
-        <a href="/random">
-            <button class="btn-small">Random</button>
-        </a>
-        <a href="/quote/{{ daily_quote.id }}">
-            <button class="btn-small"># permalink</button>
-        </a>
-    </div>
+    <a href="/documentation">
+        <button class="btn-small">Docs</button>
+    </a>
+    <a href="/random">
+        <button class="btn-small">Random</button>
+    </a>
+    <a href="/quote/{{ daily_quote.id }}">
+        <button class="btn-small"># permalink</button>
+    </a>
 </div>

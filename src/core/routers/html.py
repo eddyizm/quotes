@@ -1,10 +1,13 @@
 import logging
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status, Response
+from fastapi import APIRouter, Form, Depends, HTTPException, Request, status, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from src.core.config import settings
+from src.core.cf_validate import validate
+from src.core.models.user_models import Message
+from src.core.schema.jobs import send_message
 from src.core.routers.quote import (
     daily_quote,
     get_random_quote,
@@ -69,6 +72,32 @@ async def about(response: Response, request: Request):
     non_quote_response = settings.non_quote_response(request)
     response = templates.TemplateResponse("about.html", non_quote_response)
     response.headers["Cache-Control"] = "public, max-age=604800, immutable"
+    return response
+
+
+@router.post("/hello", response_class=HTMLResponse)
+def hello(
+        response: Response,
+        request: Request,
+        message: str = Form(...),
+        from_email: str = Form(...)):
+    cf_turnstile_response = request._form.get('cf-turnstile-response', '')
+    non_quote_response = settings.non_quote_response(request)
+    real_ip = request.headers.get('X-Forwarded-For', '') or request.headers.get('x-forwarded-for', '')
+    logger.info(f'getting ip from headers: {real_ip}')
+    response = templates.TemplateResponse("email_failure.html", non_quote_response)
+    if not cf_turnstile_response:
+        return response
+    is_valid = validate(cf_turnstile_response, real_ip)  # TODO need an ip here
+    if not is_valid.success:
+        return response
+    if send_message(
+        Message(
+            from_email=from_email,
+            message=message
+        )
+    ) == 200:
+        response = templates.TemplateResponse("email_success.html", non_quote_response)
     return response
 
 
