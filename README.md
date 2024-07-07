@@ -20,22 +20,27 @@ oracle vps setup
 ```  
 sudo firewall-cmd --permanent --zone=public --add-port=80/tcp
 sudo firewall-cmd --permanent --zone=public --add-port=443/tcp
-sudo firewall-cmd --add-forward-port=port=80:proto=tcp:toport=8080
-sudo firewall-cmd --add-forward-port=port=443:proto=tcp:toport=8081
-sudo firewall-cmd --add-masquerade
-sudo firewall-cmd --list-forward-ports
 sudo firewall-cmd --runtime-to-permanent
 ```
 
 ### create systemd services
 Using the user flag, these generated files get stored here [podman docs](https://docs.podman.io/en/latest/markdown/podman-generate-systemd.1.html)  
-`.config/systemd/user`
+
+`podman generate systemd --files --name quote_pod`
+copy files
+`cp -v *.service ~/.config/systemd/user/`
+
+enable/disable
+`systemctl --user enable pod-quote_pod.service`
+
+enable linger  
+`loginctl enable-linger $USER`
+
+and start
+`systemctl --user start pod-quote_pod.service`
 
 check running
 `systemctl --user --type=service --state=running`
-
-enable/disable
-`systemctl --user enable container-quote-app.service`
 
 
 ### Docker 
