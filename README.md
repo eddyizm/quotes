@@ -28,7 +28,7 @@ Using the user flag, these generated files get stored here [podman docs](https:/
 
 `podman generate systemd --files --name quote_pod`
 copy files
-`cp -v *.service ~/.config/systemd/user/`
+`mv -v *.service ~/.config/systemd/user/`
 
 enable/disable
 `systemctl --user enable pod-quote_pod.service`

@@ -19,6 +19,10 @@ footer {
     margin-top: 1em;
 }
 
+#from_email {
+    max-width: 250px;
+}
+
 /* #quote-container {
    height: 100%;
 }
