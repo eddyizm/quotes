@@ -40,9 +40,6 @@ def send_message(message: Message):
                 "subject": "RagingDharma Website Inquiry",
                 "text": body
             })
-        if response.status_code == 200:
-            return 'Success Message'
-        else:
-            return 'there was an issue, Try again later'
+        return response.status_code
     except HTTPException:
-        raise HTTPException(status_code=404, detail='problem sending message')
+        raise HTTPException(status_code=response.status_code, detail='problem sending message')

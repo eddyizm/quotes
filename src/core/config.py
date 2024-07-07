@@ -23,6 +23,8 @@ class Settings:
     MAILGUN_KEY = os.getenv("MAILGUN_KEY")
     MAILGUN_URL = os.getenv("MAILGUN_URL")
     POSTMASTER_EMAIL = os.getenv("POSTMASTER_EMAIL")
+    TURNSTILE_SITEKEY = os.getenv("TURNSTILE_SITEKEY")
+    TURNSTILE_SECRET = os.getenv("TURNSTILE_SECRET")
 
     def quote_response(self, request, quote) -> dict:
         return {

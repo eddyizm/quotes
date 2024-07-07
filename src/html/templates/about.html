@@ -1,10 +1,43 @@
-{% extends "base.html" %}  {% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="paper container">
-    
-        <div class="col-12 col container">
+    <div id="contact" class="col-12 col container">
+        <form
+            hx-post="/hello"
+            hx-swap="innerHTML"
+            hx-target="#contact"
+            method="post"
+        >
+            <div class="form-group">
+                <label for="from_email">email address</label>
+                <input
+                    type="email"
+                    placeholder="youremail@domain.com"
+                    id="from_email"
+                    name="from_email"
+                    required="true"
+                />
+                <br />
+                <label for="message">message</label>
+                <textarea
+                    id="message"
+                    name="message"
+                    placeholder="hello"
+                    required="true"
+                ></textarea>
 
-                <img src="https://http.dog/200.jpg" alt="dog is ok">
-
-        </div>  
+                <div class="row">
+                    <div
+                        id="cfblock"
+                        class="cf-turnstile"
+                        data-sitekey="0x4AAAAAAAeam8ntxcFbPdBj"
+                        data-theme="dark"
+                    ></div>
+                </div>
+                <div id="sendbtn" class="row">
+                    <button type="submit" name="action">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

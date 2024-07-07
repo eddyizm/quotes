@@ -15,6 +15,10 @@ footer {
     margin: 0;
 }
 
+#cfblock {
+    margin-top: 1em;
+}
+
 /* #quote-container {
    height: 100%;
 }

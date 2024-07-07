@@ -4,13 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from sqlalchemy import select
 
-from src.core.models.quote_models import (
-    Author,
-    Category,
-    Quote,
-    Quote_Staging
-)
-from src.core.schema.jobs import send_message
+from src.core.models.quote_models import Author, Category, Quote, Quote_Staging
 from src.core.routers.quote import (
     daily_quote,
     get_random_quote,
