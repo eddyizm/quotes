@@ -94,7 +94,8 @@ def hello(
     if send_message(
         Message(
             from_email=from_email,
-            message=message
+            message=message,
+            submission_ip=real_ip
         )
     ) == 200:
         response = templates.TemplateResponse("email_success.html", non_quote_response)

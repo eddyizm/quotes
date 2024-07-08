@@ -9,6 +9,7 @@ from .sql_views import RANDOM_QUOTE
 from src.core.config import settings
 from src.core.models.user_models import Message
 
+
 async def insert_daily_quote():
     '''
     get a random quote and insert to quote history to use as the daily quote.
