@@ -5,7 +5,9 @@ from src.core.models.user_models import User
 from src.core.security import AuthHandler, RequiresLoginException
 
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/api/v1",
+)
 auth_handler = AuthHandler()
 
 
@@ -35,7 +37,7 @@ async def register(user: User):
     return {'message': result}
 
 
-# @router.post('/auth/login')
+@router.post('/auth/login')
 async def login(user: User):
     if await authenticate_user(user.email, user.password):
         atoken = auth_handler.create_access_token(user.email)

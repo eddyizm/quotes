@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% block content %}
+<div class="paper container">
+    <div id="login" class="col-12 col container">
+        <form
+            hx-post="/authenticate"
+            hx-swap="innerHTML"
+            hx-target="#login"
+            method="post"
+        >
+            <div class="form-group">
+                <label for="from_email">email address</label>
+                <input
+                    class="input-block"    
+                    type="email"
+                    placeholder="youremail@domain.com"
+                    id="from_email"
+                    name="from_email"
+                    required="true"
+                />
+                <br />
+                <label for="password">password</label>
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="password"
+                    required="true"
+                ></input>
+
+                <div id="cfblock" class="row">
+                    <div
+                        class="cf-turnstile"
+                        data-sitekey="0x4AAAAAAAeam8ntxcFbPdBj"
+                        data-theme="dark"
+                        data-size="compact"
+                    ></div>
+                </div>
+                <div id="sendbtn" class="row">
+                    <button type="submit" name="action">Login</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

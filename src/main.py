@@ -3,7 +3,10 @@ from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 import logging
 
-from src.core.routers import authentication, html, quotes_api
+from src.core.routers.accounts import router as AccountsRouter
+from src.core.routers.authentication import router as AuthenticationRouter
+from src.core.routers.html import router as HtmlRouter
+from src.core.routers.quotes_api import router as QuotesApiRouter
 from src.core.schema import dal
 
 logger = logging.getLogger('uvicorn.error')
@@ -13,9 +16,11 @@ logger.debug('app starting up...')
 
 app.mount("/html/static", StaticFiles(directory="src/html/static"), name="static")
 
-app.include_router(html.router)
-app.include_router(quotes_api.router)
-app.include_router(authentication.router)
+app.include_router(HtmlRouter)
+app.include_router(QuotesApiRouter)
+app.include_router(AuthenticationRouter)
+app.include_router(AccountsRouter)
+
 
 dal.metadata.create_all(dal.engine)
 
