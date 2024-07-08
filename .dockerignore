@@ -1,8 +1,8 @@
 env/
-__pycache__/
+__pycache__
 .vscode
 .mypy_cache/
 *.pyc
-data/letsencrypt/
-data/backups/
-data/
+src/data/
+.pytest_cach
+.git
