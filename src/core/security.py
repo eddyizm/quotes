@@ -52,9 +52,9 @@ class AuthHandler():
         subject: Union[str, Any], expires_delta: timedelta = None
     ) -> str:
         if expires_delta:
-            expire = datetime.now(timezone.UTC) + expires_delta
+            expire = datetime.now(timezone.utc) + expires_delta
         else:
-            expire = datetime.now(timezone.UTC) + timedelta(
+            expire = datetime.now(timezone.utc) + timedelta(
                 minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
             )
         to_encode = {"exp": expire, "sub": str(subject)}
