@@ -17,6 +17,16 @@ router = APIRouter(prefix='/account')
 auth_handler = AuthHandler()
 
 
+@router.get("/logout/", response_class=HTMLResponse)
+async def logout(request: Request, response: Response):
+    logger.info('logging out')
+    non_quote_response = settings.non_quote_response(request)
+    response = templates.TemplateResponse("/account/logout.html", non_quote_response)
+    response.delete_cookie(key='Authorization')
+    response.delete_cookie(key='is_loggedin')
+    return response
+
+
 @router.get("/login", response_class=HTMLResponse)
 async def login(response: Response, request: Request):
     non_quote_response = settings.non_quote_response(request)
@@ -40,7 +50,7 @@ async def sign_in(
             non_quote_response = settings.non_quote_response(request)
             non_quote_response['email'] = user.email
             response = templates.TemplateResponse(
-                "/account/login_success.html", non_quote_response)
+                "/account/index.html", non_quote_response)
             response.headers["HX-Push-Url"] = "/account/success"
             response.set_cookie(
                 key="is_loggedin",
@@ -61,11 +71,12 @@ async def sign_in(
             response.headers["HX-Push-Url"] = "/account/error"
             return response
     except Exception as err:
+        logger.exception(f'failure to login: {err}')
         response = templates.TemplateResponse(
             "account/login_error.html",
             {
                 "request": request,
-                'detail': f'Incorrect Username or Password. Please contact support: {err}',
+                'detail': 'Incorrect Username or Password. Please contact support',
                 'status_code': 401
             })
         response.headers["HX-Push-Url"] = "/account/error"
