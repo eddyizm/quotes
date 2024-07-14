@@ -8,6 +8,7 @@ from src.core.routers.authentication import router as AuthenticationRouter
 from src.core.routers.html import router as HtmlRouter
 from src.core.routers.quotes_api import router as QuotesApiRouter
 from src.core.schema import dal
+from src.core.security import RequiresLoginException
 
 logger = logging.getLogger('uvicorn.error')
 
@@ -34,6 +35,19 @@ async def not_found_exception_handler(request: Request, exc: HTTPException):
         return JSONResponse({"detail": exc.detail}, exc.status_code)
     logger.debug('http request not found')
     return RedirectResponse(url='/404')
+
+
+'''
+ this block is my hack, both in the custom exception handler and middeware to work around jwt token
+ handling from the templates.
+'''
+async def redirect() -> bool:
+    raise RequiresLoginException
+
+
+@app.exception_handler(RequiresLoginException)
+async def exception_handler(request: Request, exc: RequiresLoginException):
+    return RedirectResponse(url='/account/login')
 
 
 @app.middleware("http")
@@ -65,7 +79,7 @@ async def create_auth_header(request: Request, call_next):
         )
     response = await call_next(request)
     return response
-
+# end block
 
 @app.on_event("startup")
 async def startup():
