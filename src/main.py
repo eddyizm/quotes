@@ -36,6 +36,37 @@ async def not_found_exception_handler(request: Request, exc: HTTPException):
     return RedirectResponse(url='/404')
 
 
+@app.middleware("http")
+async def create_auth_header(request: Request, call_next):
+    """
+    Check if there are cookies set for authorization. If so, construct the
+    Authorization header and modify the request (unless the header already
+    exists!)
+
+    # TODO This needs to be updated per the docs ->
+        We no longer document this decorator style API, and its usage is discouraged. Instead you should use the following approach:
+        >>> middleware = [Middleware(...), ...]
+        >>> app = Starlette(middleware=middleware)
+    """
+    if ("Authorization" not in request.headers and "Authorization" in request.cookies):
+        access_token = request.cookies["Authorization"]
+        request.headers.__dict__["_list"].append(
+            (
+                "authorization".encode(),
+                f"Bearer {access_token}".encode(),
+            )
+        )
+    elif ("Authorization" not in request.headers and "Authorization" not in request.cookies):
+        request.headers.__dict__["_list"].append(
+            (
+                "authorization".encode(),
+                "Bearer 12345".encode(),
+            )
+        )
+    response = await call_next(request)
+    return response
+
+
 @app.on_event("startup")
 async def startup():
     await dal.database.connect()
