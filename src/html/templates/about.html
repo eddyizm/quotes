@@ -1,5 +1,12 @@
 {% extends "base.html" %} {% block content %}
 <div class="paper container">
+    <div>
+    <p>
+        Looking for api information? -> <a href="/documentation">Docs</a></li>
+    </p>
+    <p>Or just want to say hello -> </p>
+    </div>
+
     <div id="contact" class="col-12 col container">
         <form
             hx-post="/hello"

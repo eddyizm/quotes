@@ -1,10 +1,5 @@
-<div id="login" class="col-12 col container">
-    <div class="h2">Welcome {{ email }}!</div>
-        <div>
-            <h4>Checkout ...</h4>
-            <li><a href="/submissions">Submissions</a></li>
-            <h5>Or logout?</h5>
-            <li><a href="/account/logout">Log out</a></li>
-        </div> 
-    </div>
-</div>
+{% extends "base.html" %} {% block content %}
+
+{% include 'account/login_success.html' %}
+
+{% endblock %}

@@ -13,26 +13,21 @@
         <div class="collapsible-body">
             <ul class="inline" hx-swap-oob="true">
                 <li><a href="/random">Random</a></li>
-                <li><a href="/documentation">Docs</a></li>
                 <li><a href="/about">About</a></li>
                 <!-- TODO change login to account info/logout once logged in -->
                 {% if email %}
                 <!-- TODO Add auth levels to submission actions -->
                 <li>
-                    <a href="/account/">{{ email }}</a>
-                </li>
-                <li>
                     <a href="/submissions">Submissions</a>
                 </li>
                 <li>
-                    <a href="/account/logout">Log out</a>
+                    <a href="/account/">{{ email }}</a>
                 </li>
                 {% else %}
                 <li>
                     <a href="/account/login">Login</a>
                 </li>
                 {% endif %}
-                </li>
             </ul>
         </div>
     </div>
