@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Form, Depends, HTTPException, Request, status, Response
+from fastapi import APIRouter, Cookie, Form, Depends, HTTPException, Request, status, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
@@ -15,6 +15,7 @@ from src.core.routers.quote import (
     get_quote_by_id
 )
 from src.core.security import AuthHandler
+from typing import Optional
 
 logger = logging.getLogger('uvicorn.error')
 templates = Jinja2Templates(directory="src/html/templates")
@@ -103,20 +104,18 @@ def hello(
 
 
 @router.get("/documentation", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
-async def documentation(response: Response, request: Request):
-    non_quote_response = settings.non_quote_response(request)
+async def documentation(response: Response, request: Request, is_loggedin: Optional[str] = Cookie(None)):
+    non_quote_response = settings.non_quote_response(request, is_loggedin)
     response = templates.TemplateResponse("documentation.html", non_quote_response)
     return response
 
 
-# @router.get("/submissions" ,response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
-# async def new_submissions(response: Response, request:Request, email=Depends(auth_handler.auth_wrapper)):
-#     # TODO will require additional permissions.
-#     submissions = await get_quote_submissions()
-#     response = templates.TemplateResponse('submissions.html', 
-#                                           {'request': request,
-#                                            'submissions': submissions,
-#                                            'page_title': 'New Submissions',
-#                                            'site_title': settings.SITE_TITLE
-#                                            })
-#     return response
+@router.get("/submissions", response_class=HTMLResponse)
+async def new_submissions(response: Response, request: Request, email=Depends(auth_handler.auth_wrapper)):
+    # TODO will require additional permissions.
+    submissions = await get_quote_submissions()
+    non_quote_response = settings.non_quote_response(request, user_email=email)
+    non_quote_response['page_title'] = 'New Submissions'
+    non_quote_response['submissions'] = submissions
+    response = templates.TemplateResponse('submissions.html', non_quote_response)
+    return response
