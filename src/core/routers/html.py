@@ -24,38 +24,38 @@ auth_handler = AuthHandler()
 
 
 @router.get("/404", response_class=HTMLResponse)
-async def lost(response: Response, request: Request):
-    non_quote_response = settings.non_quote_response(request)
+async def lost(response: Response, request: Request, is_loggedin: Optional[str] = Cookie(None)):
+    non_quote_response = settings.non_quote_response(request, is_loggedin)
     response = templates.TemplateResponse("404.html", non_quote_response)
     return response
 
 
-@router.get("/", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
-async def nav(response: Response, request: Request):
+@router.get("/", response_class=HTMLResponse)
+async def nav(response: Response, request: Request, is_loggedin: Optional[str] = Cookie(None)):
     quote = await daily_quote()
-    quote_response = settings.quote_response(request, quote)
+    quote_response = settings.quote_response(request, quote, user_email=is_loggedin)
     response = templates.TemplateResponse("home.html", quote_response)
     response.headers["Cache-Control"] = "public, max-age=21600"
     return response
 
 
-@router.get("/random", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
-async def random(response: Response, request: Request):
+@router.get("/random", response_class=HTMLResponse)
+async def random(response: Response, request: Request, is_loggedin: Optional[str] = Cookie(None)):
     quote = await get_random_quote()
-    quote_response = settings.quote_response(request, quote)
+    quote_response = settings.quote_response(request, quote, user_email=is_loggedin)
     quote_response['page_title'] = 'Random Quote!'
     response = templates.TemplateResponse("home.html", quote_response)
     return response
 
 
-@router.get("/quote/{id}", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
-async def quote_by_id(response: Response, id, request: Request):
+@router.get("/quote/{id}", response_class=HTMLResponse)
+async def quote_by_id(response: Response, id, request: Request, is_loggedin: Optional[str] = Cookie(None)):
     try:
         _id = int(id)
         quote = await get_quote_by_id(_id)
         if not quote:
             return RedirectResponse('/404')
-        quote_response = settings.quote_response(request, quote)
+        quote_response = settings.quote_response(request, quote, user_email=is_loggedin)
         quote_response['page_title'] = 'This Quote!'
         response = templates.TemplateResponse("home.html", quote_response)
         response.headers["Cache-Control"] = "public, max-age=604800"
@@ -69,10 +69,10 @@ async def quote_by_id(response: Response, id, request: Request):
 
 
 @router.get("/about", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
-async def about(response: Response, request: Request):
-    non_quote_response = settings.non_quote_response(request)
+async def about(response: Response, request: Request, is_loggedin: Optional[str] = Cookie(None)):
+    non_quote_response = settings.non_quote_response(request, is_loggedin)
     response = templates.TemplateResponse("about.html", non_quote_response)
-    response.headers["Cache-Control"] = "public, max-age=604800, immutable"
+    response.headers["Cache-Control"] = "public, max-age=21600"
     return response
 
 
@@ -81,9 +81,10 @@ def hello(
         response: Response,
         request: Request,
         message: str = Form(...),
-        from_email: str = Form(...)):
+        from_email: str = Form(...),
+        is_loggedin: Optional[str] = Cookie(None)):
     cf_turnstile_response = request._form.get('cf-turnstile-response', '')
-    non_quote_response = settings.non_quote_response(request)
+    non_quote_response = settings.non_quote_response(request, is_loggedin)
     real_ip = request.headers.get('X-Forwarded-For', '') or request.headers.get('x-forwarded-for', '')
     logger.info(f'getting ip from headers: {real_ip}')
     response = templates.TemplateResponse("email_failure.html", non_quote_response)
