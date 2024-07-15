@@ -1,17 +1,10 @@
 {% extends "base.html" %} {% block content %}
 <div class="paper container">
-    <div>
-    <p>
-        Looking for api information? -> <a href="/documentation">Docs</a></li>
-    </p>
-    <p>Or just want to say hello -> </p>
-    </div>
-
-    <div id="contact" class="col-12 col container">
+    <div id="login" class="col-12 col container">
         <form
-            hx-post="/hello"
+            hx-post="/account/authenticate"
             hx-swap="innerHTML"
-            hx-target="#contact"
+            hx-target="#login"
             method="post"
         >
             <div class="form-group">
@@ -25,14 +18,14 @@
                     required="true"
                 />
                 <br />
-                <label for="message">message</label>
-                <textarea
-                    id="message"
-                    name="message"
-                    placeholder="hello"
+                <label for="password">password</label>
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="password"
                     required="true"
-                ></textarea>
-
+                />
                 <div id="cfblock" class="row">
                     <div
                         class="cf-turnstile"
@@ -42,7 +35,7 @@
                     ></div>
                 </div>
                 <div id="sendbtn" class="row">
-                    <button type="submit" name="action">Send</button>
+                    <button type="submit" name="action">Login</button>
                 </div>
             </div>
         </form>

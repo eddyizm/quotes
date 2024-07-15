@@ -1,0 +1,35 @@
+<!-- start navigation > -->
+<nav class="border fixed split-nav">
+    <div class="nav-brand">
+        <h4><a href="/">{{ site_title }}</a></h4>
+    </div>
+    <div class="collapsible">
+        <input id="collapsible2" type="checkbox" name="collapsible2" />
+        <label for="collapsible2">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </label>
+        <div class="collapsible-body">
+            <ul class="inline" hx-swap-oob="true">
+                <li><a href="/random">Random</a></li>
+                <li><a href="/about">About</a></li>
+                <!-- TODO change login to account info/logout once logged in -->
+                {% if email %}
+                <!-- TODO Add auth levels to submission actions -->
+                <li>
+                    <a href="/submissions">Submissions</a>
+                </li>
+                <li>
+                    <a href="/account/">{{ email }}</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/account/login">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- < end navigation  -->

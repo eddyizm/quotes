@@ -2,29 +2,14 @@ from fastapi import APIRouter, status, HTTPException
 from src.core.schema.dal import database, users
 from src.core.models.user_models import User
 
-from src.core.security import AuthHandler, RequiresLoginException
+from src.core.security import AuthHandler
 
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/api/v1",
+)
 auth_handler = AuthHandler()
 
-
-async def authenticate_user(username, password):
-    try:
-        user = User(email = username,
-            password= password)  
-        
-        query = users.select().where((users.c.email == user.email) & (users.c.is_active == True))
-        result =  await database.fetch_one(query)
-        if result: 
-            print('user found, check password')
-            password_check = auth_handler.verify_password(user.password, result[2])
-            print(f'password check result: {password_check}')
-            return password_check
-        else: 
-            return False
-    except:
-        raise RequiresLoginException()
 
 # disabled the login and register routes until they are ready to test
 # @router.post('/auth/register', status_code=status.HTTP_201_CREATED)
@@ -35,12 +20,12 @@ async def register(user: User):
     return {'message': result}
 
 
-# @router.post('/auth/login')
+@router.post('/auth/login')
 async def login(user: User):
-    if await authenticate_user(user.email, user.password):
-        atoken = auth_handler.create_access_token(user.email)
+    if await auth_handler.authenticate_user(user.email, user.password):
+        access_token = auth_handler.create_access_token(user.email)
         print('new token generated and sending response')
-        return { 'token': atoken }
-    else: 
+        return {'token': access_token}
+    else:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, 
                             detail='Username or password incorrect, have you validated your email yet?')

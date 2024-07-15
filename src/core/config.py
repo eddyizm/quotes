@@ -26,7 +26,7 @@ class Settings:
     TURNSTILE_SITEKEY = os.getenv("TURNSTILE_SITEKEY")
     TURNSTILE_SECRET = os.getenv("TURNSTILE_SECRET")
 
-    def quote_response(self, request, quote) -> dict:
+    def quote_response(self, request, quote, user_email: str = None) -> dict:
         return {
             "request": request,
             "site_title": self.SITE_TITLE,
@@ -34,14 +34,16 @@ class Settings:
             "version": self.VERSION,
             "page_title": "Daily Quote!",
             "daily_quote": quote,
+            "email": user_email
         }
 
-    def non_quote_response(self, request) -> dict:
+    def non_quote_response(self, request, user_email: str = None) -> dict:
         return {
             "request": request,
             "site_title": self.SITE_TITLE,
             "year": self.YEAR,
             "version": self.VERSION,
+            "email": user_email
         }
 
 

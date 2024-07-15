@@ -9,3 +9,4 @@ class User(BaseModel):
 class Message(BaseModel):
     from_email: EmailStr
     message: str
+    submission_ip: str
