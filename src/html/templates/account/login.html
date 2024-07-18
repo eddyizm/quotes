@@ -1,7 +1,6 @@
 {% extends "base.html" %} {% block content %}
-<div class="paper container">
-    <div id="login" class="col-12 col container">
-        <form
+<div id="login" class="paper container">
+    <form
             hx-post="/account/authenticate"
             hx-swap="innerHTML"
             hx-target="#login"
@@ -20,25 +19,25 @@
                 <br />
                 <label for="password">password</label>
                 <input
+                    class="input-block"
                     id="password"
                     type="password"
                     name="password"
                     placeholder="password"
                     required="true"
                 />
-                <div id="cfblock" class="row">
+                <!-- <div id="cfblock" class="row">
                     <div
                         class="cf-turnstile"
                         data-sitekey="0x4AAAAAAAeam8ntxcFbPdBj"
                         data-theme="dark"
                         data-size="compact"
                     ></div>
-                </div>
+                </div> -->
                 <div id="sendbtn" class="row">
                     <button type="submit" name="action">Login</button>
                 </div>
             </div>
         </form>
-    </div>
 </div>
 {% endblock %}
