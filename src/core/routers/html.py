@@ -90,7 +90,7 @@ def hello(
     response = templates.TemplateResponse("email_failure.html", non_quote_response)
     if not cf_turnstile_response:
         return response
-    is_valid = validate(cf_turnstile_response, real_ip)  # TODO need an ip here
+    is_valid = validate(cf_turnstile_response, real_ip)
     if not is_valid.success:
         return response
     if send_message(
