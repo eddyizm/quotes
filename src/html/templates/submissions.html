@@ -1,30 +1,28 @@
 {% extends "base.html" %}  {% block content %}
-<div class="paper container">
-    <table class="table-hover">
-        <thead>
-            <tr>
-                <th>Quote</th>
-                <th>Author</th>
-                <th>Category</th>
-                <th>Submitted By</th>
-                <th>Process</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for s in submissions %}
-            <tr>
-                <td>{{ s.quote }}</td>
-                <td>{{ s.author }}</td>
-                <td>{{ s.category }}</td>
-                <td>{{ s.added_by }}</td>
-                <td>
-                    <span>
-                        <button class="btn-secondary-outline btn-small">Add</button> <button class="paper-btn btn-small btn-danger-outline">Reject</button>
-                    </span>
-            </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<table class="table-hover">
+    <thead>
+        <tr>
+            <th>Quote</th>
+            <th>Author</th>
+            <th>Category</th>
+            <th>Submitted By</th>
+            <th>Process</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in submissions %}
+        <tr>
+            <td>{{ s.quote }}</td>
+            <td>{{ s.author }}</td>
+            <td>{{ s.category }}</td>
+            <td>{{ s.added_by }}</td>
+            <td>
+                <span>
+                    <button class="btn-secondary-outline btn-small">Add</button> <button class="paper-btn btn-small btn-danger-outline">Reject</button>
+                </span>
+        </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
