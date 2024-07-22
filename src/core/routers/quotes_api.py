@@ -78,11 +78,18 @@ async def submissions(email=Depends(auth_handler.auth_wrapper)):
         raise HTTPException
 
 
-@router.put('/quote/submissions/{id}')
+@router.patch('/quote/submissions/{id}')
 async def approve_submission(id: int, email=Depends(auth_handler.auth_wrapper)):
-    ''' Return list of unprocess quote submissions '''
+    ''' Approve a quote submission by id '''
     # TODO this will be an elevated permission
     try:
         return await approve_new_quote(id)
     except HTTPException:
         raise HTTPException
+
+
+@router.post('/quote/submissions/{id}')
+async def reject_submission(id: int, email=Depends(auth_handler.auth_wrapper)):
+    ''' Return list of unprocess quote submissions '''
+    # TODO this will be an elevated permission
+    pass

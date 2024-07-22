@@ -9,7 +9,10 @@
             <th>Process</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody
+        hx-confirm="Are you sure?"
+        hx-target="closest tr"
+        hx-swap="outerHTML swap:1s">
         {% for s in submissions %}
         <tr>
             <td>{{ s.quote }}</td>
@@ -18,7 +21,16 @@
             <td>{{ s.added_by }}</td>
             <td>
                 <span>
-                    <button class="btn-secondary-outline btn-small">Add</button> <button class="paper-btn btn-small btn-danger-outline">Reject</button>
+                    <button 
+                        hx-patch="/api/v1/quote/submissions/{{ s.id }}"
+                        class="btn-secondary-outline btn-small"
+                        >Add
+                    </button>
+                    <button 
+                        hx-on:click="console.log('REJECT!')"
+                        class="paper-btn btn-small btn-danger-outline"
+                        >Reject
+                    </button>
                 </span>
         </td>
         </tr>
