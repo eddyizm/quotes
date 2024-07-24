@@ -118,5 +118,6 @@ async def new_submissions(response: Response, request: Request, email=Depends(au
     non_quote_response = settings.non_quote_response(request, user_email=email)
     non_quote_response['page_title'] = 'New Submissions'
     non_quote_response['submissions'] = submissions
+    non_quote_response['count'] = len(submissions)
     response = templates.TemplateResponse('submissions.html', non_quote_response)
     return response
