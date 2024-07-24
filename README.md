@@ -4,10 +4,10 @@ FastAPI quote app
 ## local set up 
 set up local pod, container and db. 
 `podman pod create -p 8000:8000 -p 5432:5432 --name=quote_pod && podman pod start quote_pod`
-`podman build -t quote-app -f Dockerfile`
+`podman build -t quote-app -f Dockerfile --ignorefile .dockerignore`
 `podman run -d --pod=quote_pod --name=postgres_db -v dbdata:/var/lib/postgresql/data  --env-file src/core/.env docker.io/postgres:latest`
 `podman run -d --pod=quote_pod --name=quote-app quote-app`
-
+    
 
 # Podman   
 

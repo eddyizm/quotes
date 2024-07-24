@@ -1,7 +1,6 @@
 {% extends "base.html" %} {% block content %}
-<div class="paper container">
-    <div id="login" class="col-12 col container">
-        <form
+<div id="login" class="paper container">
+    <form
             hx-post="/account/authenticate"
             hx-swap="innerHTML"
             hx-target="#login"
@@ -20,6 +19,7 @@
                 <br />
                 <label for="password">password</label>
                 <input
+                    class="input-block"
                     id="password"
                     type="password"
                     name="password"
@@ -39,6 +39,5 @@
                 </div>
             </div>
         </form>
-    </div>
 </div>
 {% endblock %}

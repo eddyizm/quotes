@@ -70,6 +70,7 @@ async def insert_new_quote(new_quote, db=Depends(connect_to_db)):
         date_added=datetime.now().date()
     )
     response = await database.execute(insert_query)
+    logger.info(f'new quote id: {response}')
     return response
 
 
@@ -109,3 +110,16 @@ async def approve_new_quote(quote_id: int, db=Depends(connect_to_db)):
     response = await insert_new_quote(new_quote)
     if response:
         return await update_submitted_quote(quote_id, response)
+
+
+async def reject_new_quote(quote_id: int, db=Depends(connect_to_db)):
+    """
+        approve submitted quote
+        TODO will need to add a fuzzy duplicate check
+    """
+    # response = await insert_new_quote(new_quote)
+    update_stmt = quotes_staging.update().\
+        where(quotes_staging.c.id == quote_id).\
+        values(added_to_quotes=1)
+    logger.info('rejecting quote')
+    return await database.execute(update_stmt)
