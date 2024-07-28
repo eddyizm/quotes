@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from typing import List
 from sqlalchemy import select
 
@@ -84,7 +84,9 @@ async def approve_submission(id: int, email=Depends(auth_handler.auth_wrapper)):
     ''' Approve a quote submission by id '''
     # TODO this will be an elevated permission
     try:
-        return await approve_new_quote(id)
+        result = await approve_new_quote(id)
+        if result is None:
+            return Response()
     except HTTPException:
         raise HTTPException
 
@@ -94,7 +96,9 @@ async def reject_submission(id: int, email=Depends(auth_handler.auth_wrapper)):
     ''' Reject a quote submission by id (soft delete)'''
     # TODO this will be an elevated permission
     try:
-        return await reject_new_quote(id)
+        result = await reject_new_quote(id)
+        if result is None:
+            return Response()
     except HTTPException:
         raise HTTPException
 

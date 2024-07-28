@@ -1,4 +1,4 @@
-{% extends "base.html" %}  {% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="flex-middle">Submissions: {{ count }}</div>
 <table class="table-hover">
     <thead>
@@ -13,7 +13,8 @@
     <tbody
         hx-confirm="Are you sure?"
         hx-target="closest tr"
-        hx-swap="outerHTML swap:1s">
+        hx-swap="outerHTML swap:1s"
+    >
         {% for s in submissions %}
         <tr>
             <td>{{ s.quote }}</td>
@@ -22,18 +23,20 @@
             <td>{{ s.added_by }}</td>
             <td>
                 <span>
-                    <button 
+                    <button
                         hx-patch="/api/v1/quote/submissions/{{ s.id }}"
                         class="btn-secondary-outline btn-small"
-                        >Add
+                    >
+                        Add
                     </button>
-                    <button 
+                    <button
                         hx-patch="/api/v1/quote/submissions/reject/{{ s.id }}"
                         class="paper-btn btn-small btn-danger-outline"
-                        >Reject
+                    >
+                        Reject
                     </button>
                 </span>
-        </td>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
