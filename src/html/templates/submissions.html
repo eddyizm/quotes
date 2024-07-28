@@ -28,7 +28,7 @@
                         >Add
                     </button>
                     <button 
-                        hx-on:click="console.log('REJECT!')"
+                        hx-patch="/api/v1/quote/submissions/reject/{{ s.id }}"
                         class="paper-btn btn-small btn-danger-outline"
                         >Reject
                     </button>

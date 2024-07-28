@@ -11,6 +11,7 @@ from src.core.routers.quote import (
     get_quote_submissions,
     submit_new_quote,
     approve_new_quote,
+    reject_new_quote,
     get_quote_by_id
 )
 from src.core.security import AuthHandler
@@ -88,8 +89,12 @@ async def approve_submission(id: int, email=Depends(auth_handler.auth_wrapper)):
         raise HTTPException
 
 
-@router.post('/quote/submissions/{id}')
+@router.patch('/quote/submissions/reject/{id}')
 async def reject_submission(id: int, email=Depends(auth_handler.auth_wrapper)):
-    ''' Return list of unprocess quote submissions '''
+    ''' Reject a quote submission by id (soft delete)'''
     # TODO this will be an elevated permission
-    pass
+    try:
+        return await reject_new_quote(id)
+    except HTTPException:
+        raise HTTPException
+
