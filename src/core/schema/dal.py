@@ -14,7 +14,6 @@ engine = sqlalchemy.create_engine(
 )
 metadata = sqlalchemy.MetaData()
 
-    
 users = sqlalchemy.Table(
     'users',
     metadata,
@@ -26,6 +25,7 @@ users = sqlalchemy.Table(
     ),
     sqlalchemy.Column('email', sqlalchemy.String, unique=True),
     sqlalchemy.Column('password', sqlalchemy.String),
+    sqlalchemy.Column('display_name', sqlalchemy.String, nullable=True),
     sqlalchemy.Column(
         'is_active',
         sqlalchemy.Boolean,
