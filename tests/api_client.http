@@ -57,6 +57,13 @@ POST http://127.0.0.1:8000/api/v1/quote/817
 ### send a bad request -> should 404
 POST http://127.0.0.1:8000/api/v1/quote/999999
 
+# incorrect endpoints
+### incorrect GET
+GET http://127.0.0.1:8000/api/v1/daily/
+
+### incorrect PUT
+PUT http://127.0.0.1:8000/api/v1/daily/
+
 # protected endpoints 
 
 ### get list of categories

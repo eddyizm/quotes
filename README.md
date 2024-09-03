@@ -55,3 +55,11 @@ call scraper via container. Use this in the crontab job.
 ### check db in container
 
 `psql -U $POSTGRES_USER $POSTGRES_DB`
+
+
+### tests
+
+Initital testing is against a local container postgres using `pytest` and only testing the open api endpoints atm. 
+
+TODO: test the jinja templates, test auth and protected routes.
+
