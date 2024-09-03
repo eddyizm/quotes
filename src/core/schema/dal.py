@@ -3,11 +3,10 @@ from datetime import datetime
 from databases import Database
 from sqlalchemy.sql import func
 import logging
-
 from src.core.config import settings
+
 logger = logging.getLogger('uvicorn.error')
 DATABASE_URL = f'postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_SERVER}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}'
-
 database = Database(DATABASE_URL, min_size=5, max_size=20)
 engine = sqlalchemy.create_engine(
     DATABASE_URL, echo=True
@@ -72,7 +71,7 @@ quote_history = sqlalchemy.Table(
 async def connect_to_db():
     try:
         logger.debug('trying to connect')
-        return await database.connect()
+        await database.connect()
     except Exception as ex:
         logger.error('Unable to connect to database', ex)
         raise Exception('Unable to connect to database')
