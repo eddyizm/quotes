@@ -10,7 +10,7 @@ from src.core.routers.quotes_api import router as QuotesApiRouter
 from src.core.schema import dal
 from src.core.security import RequiresLoginException
 
-logger = logging.getLogger('uvicorn.debug')
+logger = logging.getLogger('granian.debug')
 
 app = FastAPI()
 logger.debug('app starting up...')
