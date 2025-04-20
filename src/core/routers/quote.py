@@ -10,7 +10,7 @@ from src.core.schema.dal import quotes, quote_history, quotes_staging, database,
 import logging
 
 logger = logging.getLogger('uvicorn.error')
-cache = TTLCache(maxsize=100, ttl=60 * 60 * 6)
+cache = TTLCache(maxsize=50, ttl=300)
 
 
 async def daily_quote(db=Depends(connect_to_db)) -> Quote:
