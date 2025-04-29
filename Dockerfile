@@ -1,8 +1,9 @@
-FROM python:3.13-alpine
+FROM python:3.11-alpine
 WORKDIR /usr/src/app
 COPY . .
 RUN apk update \
-    && apk add libpq-dev gcc musl-dev \
+    && apk add libpq-dev gcc musl-dev cmake libffi \
+    && apk add --no-cache g++ python3-dev py3-pip openblas-dev \
     && pip install psycopg2
 RUN pip install --upgrade pip setuptools wheel && pip install --no-cache-dir -r requirements.txt
 CMD ["granian", \
