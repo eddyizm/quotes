@@ -7,7 +7,6 @@ set up local pod, container and db.
 `podman build -t quote-app -f Dockerfile --ignorefile .dockerignore`
 `podman run -d --pod=quote_pod --name=postgres_db -v dbdata:/var/lib/postgresql/data  --env-file src/core/.env docker.io/postgres:latest`
 `podman run -d --pod=quote_pod --name=quote-app quote-app`
-    
 
 # Podman   
 
@@ -26,8 +25,12 @@ sudo firewall-cmd --runtime-to-permanent
 ### create systemd services
 Using the user flag, these generated files get stored here [podman docs](https://docs.podman.io/en/latest/markdown/podman-generate-systemd.1.html)  
 
+These commands only work after having everything up and running. Which then need to be removed. 
+
 `podman generate systemd --files --name quote_pod`
+
 copy files
+
 `mv -v *.service ~/.config/systemd/user/`
 
 enable/disable
@@ -56,6 +59,8 @@ call scraper via container. Use this in the crontab job.
 
 `psql -U $POSTGRES_USER $POSTGRES_DB`
 
+### restore backup  
+`gunzip -c ragingdharmaDbBackup_2025-04-25.sql.tar.gz | podman exec -i postgres_db psql -U root -d postgres`
 
 ### tests
 

@@ -20,7 +20,7 @@ exceptiongroup==1.1.1
 fastapi==0.92.0
 feedparser==6.0.10
 greenlet==2.0.2
-gunicorn==23.0.0
+granian==2.2.0
 h11==0.14.0
 httpcore==0.17.0
 httpx==0.24.0

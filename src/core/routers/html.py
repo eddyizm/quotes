@@ -35,7 +35,7 @@ async def nav(response: Response, request: Request, is_loggedin: Optional[str] =
     quote = await daily_quote()
     quote_response = settings.quote_response(request, quote, user_email=is_loggedin)
     response = templates.TemplateResponse("home.html", quote_response)
-    response.headers["Cache-Control"] = "public, max-age=21600"
+    response.headers["Cache-Control"] = "public, max-age=60"
     return response
 
 
@@ -58,7 +58,7 @@ async def quote_by_id(response: Response, id, request: Request, is_loggedin: Opt
         quote_response = settings.quote_response(request, quote, user_email=is_loggedin)
         quote_response['page_title'] = 'This Quote!'
         response = templates.TemplateResponse("home.html", quote_response)
-        response.headers["Cache-Control"] = "public, max-age=604800"
+        response.headers["Cache-Control"] = "public, max-age=300"
         return response
     except ValueError as ex:
         logger.exception(f'return redirect: {ex}')
@@ -72,7 +72,7 @@ async def quote_by_id(response: Response, id, request: Request, is_loggedin: Opt
 async def about(response: Response, request: Request, is_loggedin: Optional[str] = Cookie(None)):
     non_quote_response = settings.non_quote_response(request, is_loggedin)
     response = templates.TemplateResponse("about.html", non_quote_response)
-    response.headers["Cache-Control"] = "public, max-age=21600"
+    response.headers["Cache-Control"] = "public, max-age=60"
     return response
 
 
