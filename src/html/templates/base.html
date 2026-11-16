@@ -1,77 +1,45 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
-    <head>
-        <title>{{ site_title }}</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta
-            http-equiv="Content-Security-Policy"
-            content="upgrade-insecure-requests"
-        />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <meta property="og:url" content="https://www.ragingdharma.com/" />
-        <meta property="og:title" content="Raging Dharma - Daily quotes" />
-        <meta property="og:description" content="Daily Quote api" />
-        <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="{{ url_for('static', path='apple-touch-icon.png') }}"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="{{ url_for('static', path='favicon-32x32.png') }}"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="{{ url_for('static', path='favicon-16x16.png') }}"
-        />
-        <link rel="icon" href="{{ url_for('static', path="favicon.ico") }}" />
 
-        <link rel="manifest" href="{{ url_for('static', path='site.webmanifest') }}" />
-        <!-- <link rel="stylesheet" href="{{ url_for('static', path='paper.min.css') }}" /> -->
-        <link
-            rel="stylesheet"
-            href="https://unpkg.com/papercss@1.9.1/dist/paper.min.css"
-        />
-        <script
-            src="https://unpkg.com/htmx.org@2.0.0"
-            integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw"
-            crossorigin="anonymous"
-        ></script>
-        <script
-            defer
-            src="https://cloud.umami.is/script.js"
-            data-website-id="c5471987-411f-44ff-b516-3cb41971ab85"
-        ></script>
-        <script
-            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-            defer
-        ></script>
-        <link
-            rel="stylesheet"
-            href="{{ url_for('static', path='custom.css') }}"
-        />
-    </head>
+<head>
+    <title>{{ site_title }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta property="og:url" content="https://www.ragingdharma.com/" />
+    <meta property="og:title" content="Raging Dharma - Daily quotes" />
+    <meta property="og:description" content="Daily Quote api" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', path='apple-touch-icon.png') }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', path='favicon-32x32.png') }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', path='favicon-16x16.png') }}" />
+    <link rel="icon" href="{{ url_for('static', path=" favicon.ico") }}" />
 
-    <body>
+    <link rel="manifest" href="{{ url_for('static', path='site.webmanifest') }}" />
+    <!-- <link rel="stylesheet" href="{{ url_for('static', path='paper.min.css') }}" /> -->
+    <link rel="stylesheet" href="https://unpkg.com/papercss@1.9.1/dist/paper.min.css" />
+    <script src="https://unpkg.com/htmx.org@2.0.0"
+        integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='custom.css') }}" />
+</head>
+
+<body>
     <div id="top" class="row site">
-    <div id="base-container" class="sm-12 md-12 col">
-    {% include 'nav.html' %}
-    <!-- main > -->
-    <main id="quote-container" class="paper">
-        <div class="section">
-            <!-- section block > -->
-            {% block content %} {% endblock %}
-            <!-- < section block  -->
-        </div>
-    </main>
-    <!-- < main -->
-    {% include 'footer.html' %}
+        <div id="base-container" class="sm-12 md-12 col">
+            {% include 'nav.html' %}
+            <!-- main > -->
+            <main id="quote-container" class="paper">
+                <div class="section">
+                    <!-- section block > -->
+                    {% block content %} {% endblock %}
+                    <!-- < section block  -->
+                </div>
+            </main>
+            <!-- < main -->
+            {% include 'footer.html' %}
         </div>
     </div>
-    </body>
+</body>
+
 </html>
