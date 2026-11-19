@@ -45,15 +45,13 @@ and start
 check running
 `systemctl --user --type=service --state=running`
 
-
-### Docker 
-[Docker set up here](DOCKER.md)
-
 ## running jobs 
 
 call scraper via container. Use this in the crontab job. 
 
-`podman exec quote-app python -m scraper`
+`0 0 * * * podman exec quote-app python -m src.bin.scraper 2>&1 | logger -t quote-scraper`
+
+and review cron logs `journalctl -t quote-scraper`
 
 ### check db in container
 
